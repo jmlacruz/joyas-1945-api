@@ -1,0 +1,51 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug API",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/dist/server.js",
+      "preLaunchTask": "build",
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true,
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "*"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "restart": true,
+      "runtimeArgs": ["--inspect"]
+    },
+    {
+      "name": "Debug API (No Build)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/dist/server.js",
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "sourceMaps": true,
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "*"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "restart": true,
+      "runtimeArgs": ["--inspect"]
+    },
+    {
+      "name": "Attach to Running Process",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "restart": true,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+    }
+  ]
+}
