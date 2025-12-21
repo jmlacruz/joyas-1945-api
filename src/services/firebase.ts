@@ -1,13 +1,12 @@
 import admin from "firebase-admin";
-import serviceKeys from "../credentials/firebase/joyas.json";        //Para que se puedan importar JSON hay que habilitar la opcion "resolveJsonModule": true," en "tsconfig.json"
-import { FunctionsCustomResponse } from "../types/types";
+import serviceKeys from "../credentials/firebase/joyas.json"; //Para que se puedan importar JSON hay que habilitar la opcion "resolveJsonModule": true," en "tsconfig.json"
 import { FIREBASE_BUCKET_URL } from "../environment";
+import { FunctionsCustomResponse } from "../types/types";
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceKeys as admin.ServiceAccount),
     storageBucket: FIREBASE_BUCKET_URL
 });
-
 const bucket = admin.storage().bucket();
 
 const uploadFileToFirebase = async (options: {file: Buffer, filename: string, folderName: string}): Promise<FunctionsCustomResponse> => {           //Recibe un archivo de multer, lo sube a firebase y devuelve su url de descarga
