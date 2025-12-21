@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { getDao } from "../dao";
 import { CURRENT_FRONT_BASE_URL, JWT_EXPIRATION_TIME, JWT_SECRET } from "../environment";
-import { getStreamChatToken } from "../services/getStream";
 import { CustomError } from "../types/customError";
 import { DatabaseControllers_CustomResponse, SessionUserData, Usuario } from "../types/types";
 import { getCurrentDateTime } from "../utils/utils";
@@ -33,7 +32,7 @@ export const allowAccessToWeb = async (req: Request, res: Response) => {
                 registered: true, 
                 rememberme: true, 
                 isAdmin: isAdmin, 
-                streamChatToken: getStreamChatToken({userId: userData.id.toString()}),
+                streamChatToken: "",
                 userId: userData.id.toString(), city: userData.ciudad,
                 token: "",
             };

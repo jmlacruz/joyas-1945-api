@@ -18,7 +18,6 @@ const express_1 = __importDefault(require("express"));
 const dao_1 = require("./dao");
 const environment_1 = require("./environment");
 const routes_1 = __importDefault(require("./routes/routes"));
-const getStream_1 = require("./services/getStream");
 const utils_1 = require("./utils/utils");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({ origin: environment_1.CORS_ALLOW_ORIGINS, credentials: true }));
@@ -27,7 +26,6 @@ app.use(express_1.default.json());
 app.use("/api", routes_1.default);
 const PORT = process.env.PORT || 8080;
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    (0, getStream_1.createStreamChatChannel)();
     const response = yield (0, dao_1.getDao)().connect();
     if (response.success) {
         const response1 = yield (0, dao_1.getDao)().createUsersLogTableIfNotExits();

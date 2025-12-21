@@ -4,7 +4,6 @@ import express from "express";
 import { getDao } from "./dao";
 import { CORS_ALLOW_ORIGINS } from "./environment";
 import routes from "./routes/routes";
-import { createStreamChatChannel } from "./services/getStream";
 import { printInitialActionsResponse } from "./utils/utils";
 
 const app = express();
@@ -17,7 +16,6 @@ app.use("/api", routes);
 const PORT = process.env.PORT || 8080;
 
 (async () => {
-    createStreamChatChannel();
     
     
     const response = await getDao().connect();

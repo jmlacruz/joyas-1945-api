@@ -8,7 +8,6 @@ const adminNotifications_1 = require("../controllers/adminNotifications");
 const allowAccessToWeb_1 = require("../controllers/allowAccessToWeb");
 const checkAPI_1 = require("../controllers/checkAPI");
 const contact_1 = require("../controllers/contact");
-const cron_1 = require("../controllers/cron");
 const database_1 = require("../controllers/database");
 const firebase_1 = require("../controllers/firebase");
 const googleReviews_1 = require("../controllers/googleReviews");
@@ -54,7 +53,6 @@ routes.get("/enableUser", verifyTokenForEmailLinkAction_1.verifyTokenForEmailLin
 routes.get("/usersNotifications/sendCartReminderMail", usersNotifications_1.sendCartReminderMail); /*Envio de notificacion el usuario por carrito abandonado*/
 routes.get("/usersNotifications/enabledUser", allowAdmin_1.allowAdmin, verifyToken_1.verifyToken, usersNotifications_1.enabledUser); /*Endpoint para enviar notificación al usuario habilitado desde el dashboard*/
 routes.get("/allowAccessToWeb", verifyTokenForEmailLinkAction_1.verifyTokenForEmailLinkAction, allowAccessToWeb_1.allowAccessToWeb);
-routes.get("/checkCart", verifyToken_1.verifyToken, cron_1.checkCart);
 routes.post("/db/usersLogs", verifyToken_1.verifyToken, database_1.usersLogs);
 routes.post("/db/loginError", database_1.usersLogs);
 routes.get("/getReviews", allowAdmin_1.allowAdmin, googleReviews_1.updateGoogleReviews);

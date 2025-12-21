@@ -16,7 +16,6 @@ exports.allowAccessToWeb = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dao_1 = require("../dao");
 const environment_1 = require("../environment");
-const getStream_1 = require("../services/getStream");
 const customError_1 = require("../types/customError");
 const utils_1 = require("../utils/utils");
 const allowAccessToWeb = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -46,7 +45,7 @@ const allowAccessToWeb = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 registered: true,
                 rememberme: true,
                 isAdmin: isAdmin,
-                streamChatToken: (0, getStream_1.getStreamChatToken)({ userId: userData.id.toString() }),
+                streamChatToken: "",
                 userId: userData.id.toString(), city: userData.ciudad,
                 token: "",
             };

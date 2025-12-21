@@ -131,17 +131,15 @@ export const getCurrentDateTime = () => {                                       
 
 export const getImageUrls = (imageInDBName: string) => {
     if (!imageInDBName) return {imageUrl: "", thumbnailUrl: ""};
-    // if (imageInDBName.includes("firebase/")) {
-    //     const imageNameParsed = imageInDBName.split("/")[1];
-    //     const imageUrl = IMAGES_FIREBASE_ROUTE?.replace("_", imageNameParsed);
-    //     const thumbnailUrl = THUMBNAILS_FIREBASE_ROUTE?.replace("_", imageNameParsed);
-    //     return {imageUrl, thumbnailUrl};
-    // } else
-    {
-        const imageUrl = `${IMAGES_ROUTE}/${imageInDBName}`;
-        const thumbnailUrl = `${THUMBNAILS_ROUTE}/${imageInDBName}`;
-        // const imageUrl = `${IMAGES_ROUTE}%2F${imageInDBName}?alt=media`;
-        // const thumbnailUrl = `${THUMBNAILS_ROUTE}%2F${imageInDBName}?alt=media`;
+    if (imageInDBName.includes("firebase/")) {
+        const imageNameParsed = imageInDBName.split("firebase/")[1];
+        const encodedImageName = encodeURIComponent(imageNameParsed);
+        const imageUrl = IMAGES_FIREBASE_ROUTE?.replace("_", encodedImageName);
+        const thumbnailUrl = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedImageName);
+        return {imageUrl, thumbnailUrl};
+    } else {
+        const imageUrl = `${IMAGES_FIREBASE_ROUTE}%2F${imageInDBName}?alt=media`;
+        const thumbnailUrl = `${THUMBNAILS_FIREBASE_ROUTE}%2F${imageInDBName}?alt=media`;
         return {imageUrl, thumbnailUrl};
     }
 };

@@ -3,7 +3,6 @@ import { productDisabled } from "../controllers/adminNotifications";
 import { allowAccessToWeb } from "../controllers/allowAccessToWeb";
 import { checkAPI } from "../controllers/checkAPI";
 import { newContact } from "../controllers/contact";
-import { checkCart } from "../controllers/cron";
 import { createUser, deleteRowByID, deleteRows, enableUser, getCartData, getProductByID, getProductsByIDs, getProductsFiltered, getProductsFilteredRowsQuantity, getTable, insertRow, saveCartData, updateProductsOrder, updateTable, usersLogs } from "../controllers/database";
 import { deleteDocument, deleteFiles, handleDocument, handleFiles } from "../controllers/firebase";
 import { updateGoogleReviews } from "../controllers/googleReviews";
@@ -63,7 +62,6 @@ routes.get("/usersNotifications/enabledUser", allowAdmin, verifyToken, enabledUs
 
 routes.get("/allowAccessToWeb", verifyTokenForEmailLinkAction, allowAccessToWeb);  
 
-routes.get("/checkCart", verifyToken, checkCart);
 
 routes.post("/db/usersLogs", verifyToken, usersLogs);
 routes.post("/db/loginError", usersLogs);

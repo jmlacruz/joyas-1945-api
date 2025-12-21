@@ -101,7 +101,6 @@ const getAdminsEmailList = () => {
 };
 export const ADMINS_EMAILS_LIST = getAdminsEmailList();
 
-export const CRON_API_KEY = process.env.CRON_API_KEY;
 export const CART_REMINDER_WAIT_IN_HOURS = process.env.CART_REMINDER_WAIT_IN_HOURS ? parseFloat(process.env.CART_REMINDER_WAIT_IN_HOURS) : 48;
 export const JWT2_SECRET = process.env.JWT2_SECRET;
 
@@ -111,8 +110,8 @@ export const GETSTREAM_APP_ID = process.env.GETSTREAM_APP_ID;
 
 export const JWT3_SECRET = process.env.JWT3_SECRET;
 
-export const SERPAPI_GOOGLE_REVIEWS_API_KEY = process.env.SERPAPI_GOOGLE_REVIEWS_API_KEY;
-export const ADJ_GOOGLE_PLACE_ID = process.env.ADJ_GOOGLE_PLACE_ID;
+export const API_GOOGLE_REVIEWS_API_KEY = process.env.API_GOOGLE_REVIEWS_API_KEY;
+export const GOOGLE_PLACE_ID = process.env.GOOGLE_PLACE_ID;
 
 export const SYNC_DATA_ENDPOINT_PASSWORD = process.env.SYNC_DATA_ENDPOINT_PASSWORD;
 

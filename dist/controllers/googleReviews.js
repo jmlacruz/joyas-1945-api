@@ -10,11 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateGoogleReviews = void 0;
-const customError_1 = require("../types/customError");
-const environment_1 = require("../environment");
 const dao_1 = require("../dao");
+const environment_1 = require("../environment");
+const customError_1 = require("../types/customError");
 const getReviewspage = (next_page_token) => __awaiter(void 0, void 0, void 0, function* () {
-    const url = `https://serpapi.com/search?engine=google_maps_reviews&place_id=${environment_1.ADJ_GOOGLE_PLACE_ID}&api_key=${environment_1.SERPAPI_GOOGLE_REVIEWS_API_KEY}&sort_by=newestFirst${next_page_token ? "&next_page_token=" + next_page_token : ""}`;
+    const url = `https://serpapi.com/search?engine=google_maps_reviews&place_id=${environment_1.GOOGLE_PLACE_ID}&api_key=${environment_1.API_GOOGLE_REVIEWS_API_KEY}&sort_by=newestFirst${next_page_token ? "&next_page_token=" + next_page_token : ""}`;
     const response = yield fetch(url, {
         method: "GET",
     });
@@ -24,10 +24,10 @@ const getReviewspage = (next_page_token) => __awaiter(void 0, void 0, void 0, fu
 const updateGoogleReviews = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        if (!environment_1.SERPAPI_GOOGLE_REVIEWS_API_KEY)
-            throw new Error("Error interno del servidor. Variable de entorno 'SERPAPI_GOOGLE_REVIEWS_API_KEY' para obtención de reviews de google no disponible - (getReviews)");
-        if (!environment_1.ADJ_GOOGLE_PLACE_ID)
-            throw new Error("Error interno del servidor. Variable de entorno 'ADJ_GOOGLE_PLACE_ID' para obtención de reviews de google no disponible - (getReviews)");
+        if (!environment_1.API_GOOGLE_REVIEWS_API_KEY)
+            throw new Error("Error interno del servidor. Variable de entorno 'API_GOOGLE_REVIEWS_API_KEY' para obtención de reviews de google no disponible - (getReviews)");
+        if (!environment_1.GOOGLE_PLACE_ID)
+            throw new Error("Error interno del servidor. Variable de entorno 'GOOGLE_PLACE_ID' para obtención de reviews de google no disponible - (getReviews)");
         let reviews = [];
         let next_page_token = "";
         let reviewsPage = null;

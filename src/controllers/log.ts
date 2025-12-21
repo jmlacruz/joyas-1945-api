@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { getDao } from "../dao";
 import { JWT_EXPIRATION_TIME, JWT_SECRET } from "../environment";
-import { getStreamChatToken } from "../services/getStream";
 import { CustomError } from "../types/customError";
 import { LogControllers_CustomResponse, LoginData, SessionUserData, Usuario } from "../types/types";
 import { getCurrentDateTime } from "../utils/utils";
@@ -34,7 +33,7 @@ export const login = async (req: Request, res: Response) => {
                 rememberme: loginData.rememberme, 
                 isAdmin: isAdmin, 
                 userId: userData.id.toString(), 
-                streamChatToken: getStreamChatToken({userId: userData.id.toString()}),
+                streamChatToken: "",
                 city: userData.ciudad,
                 token: "",
             };
@@ -89,7 +88,7 @@ export const isLogged = async (req: Request, res: Response) => {
                 registered: true, 
                 rememberme: true, 
                 isAdmin: isAdmin, 
-                streamChatToken: getStreamChatToken({userId: userData.id.toString()}),
+                streamChatToken: "",
                 userId: userData.id.toString(), city: userData.ciudad,
                 token: "",
             };

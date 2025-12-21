@@ -53,17 +53,16 @@ const getProductsFiltered = (req, res) => __awaiter(void 0, void 0, void 0, func
             response2.data.forEach((data) => {
                 if (data.foto1) {
                     if (data.foto1.includes("firebase/")) {
-                        const foto1Name = data.foto1.split("/")[1];
-                        data.foto1 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", foto1Name);
-                        data.thumbnail1 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", foto1Name);
+                        const foto1Name = data.foto1.split("firebase/")[1];
+                        const encodedFoto1Name = encodeURIComponent(foto1Name);
+                        data.foto1 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
+                        data.thumbnail1 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
                         data.foto1NameToDelete = foto1Name;
                     }
-                    else if (!data.foto1.includes("firebase/")) {
-                        const foto1Name = data.foto1;
-                        data.foto1 = `${environment_1.IMAGES_ROUTE}/${foto1Name}`;
-                        data.thumbnail1 = `${environment_1.THUMBNAILS_ROUTE}/${foto1Name}`;
-                        // data.foto1 = `${IMAGES_ROUTE}%2F${foto1Name}?alt=media`;
-                        // data.thumbnail1 = `${THUMBNAILS_ROUTE}%2F${foto1Name}?alt=media`;
+                    else {
+                        const encodedFoto1Name = encodeURIComponent(data.foto1);
+                        data.foto1 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
+                        data.thumbnail1 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
                     }
                 }
                 else {
@@ -72,17 +71,16 @@ const getProductsFiltered = (req, res) => __awaiter(void 0, void 0, void 0, func
                 }
                 if (data.foto2) {
                     if (data.foto2.includes("firebase/")) {
-                        const foto2Name = data.foto2.split("/")[1];
-                        data.foto2 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", foto2Name);
-                        data.thumbnail2 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", foto2Name);
+                        const foto2Name = data.foto2.split("firebase/")[1];
+                        const encodedFoto2Name = encodeURIComponent(foto2Name);
+                        data.foto2 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
+                        data.thumbnail2 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
                         data.foto2NameToDelete = foto2Name;
                     }
-                    else if (!data.foto2.includes("firebase/")) {
-                        const foto2Name = data.foto2;
-                        data.foto2 = `${environment_1.IMAGES_ROUTE}/${foto2Name}`;
-                        data.thumbnail2 = `${environment_1.THUMBNAILS_ROUTE}/${foto2Name}`;
-                        // data.foto2 = `${IMAGES_ROUTE}%2F${foto2Name}?alt=media`;
-                        // data.thumbnail2 = `${THUMBNAILS_ROUTE}%2F${foto2Name}?alt=media`;
+                    else {
+                        const encodedFoto2Name = encodeURIComponent(data.foto2);
+                        data.foto2 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
+                        data.thumbnail2 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
                     }
                 }
                 else {
@@ -90,8 +88,6 @@ const getProductsFiltered = (req, res) => __awaiter(void 0, void 0, void 0, func
                     data.thumbnail2 = "";
                 }
                 if (data.precio) {
-                    // data.precioDolar = data.precio;
-                    // data.precio = Math.ceil(data.precio * globalMultiplier);
                     data.precioDolar = data.precio;
                 }
             });
@@ -166,12 +162,13 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 response.data.forEach((data) => {
                     if (data.imagen) {
                         if (data.imagen.includes("firebase/")) {
-                            const imageName = data.imagen.split("/")[1];
-                            data.imagen = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", imageName);
-                            data.thumbnailImagen = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", imageName);
+                            const imageName = data.imagen.split("firebase/")[1];
+                            const encodedImageName = encodeURIComponent(imageName);
+                            data.imagen = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedImageName);
+                            data.thumbnailImagen = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedImageName);
                             data.imagenNameToDelete = imageName;
                         }
-                        else if (!data.imagen.includes("firebase/")) {
+                        else {
                             const imageName = data.imagen;
                             data.imagen = `${environment_1.BRANDS_IMAGES_ROUTE}/${imageName}`;
                             data.thumbnailImagen = "";
@@ -182,12 +179,13 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     }
                     if (data.logo) {
                         if (data.logo.includes("firebase/")) {
-                            const logoName = data.logo.split("/")[1];
-                            data.logo = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", logoName);
-                            data.thumbnailLogo = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", logoName);
+                            const logoName = data.logo.split("firebase/")[1];
+                            const encodedLogoName = encodeURIComponent(logoName);
+                            data.logo = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedLogoName);
+                            data.thumbnailLogo = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedLogoName);
                             data.logoNameToDelete = logoName;
                         }
-                        else if (!data.logo.includes("firebase/")) {
+                        else {
                             const logoName = data.logo;
                             data.logo = `${environment_1.BRANDS_IMAGES_ROUTE}/${logoName}`;
                             data.thumbnailLogo = "";
@@ -198,12 +196,13 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     }
                     if (data.pdf) {
                         if (data.pdf.includes("firebase/")) {
-                            const pdfName = data.pdf.split("/")[1];
-                            data.pdf = environment_1.DOCUMENTS_FIREBASE_ROUTE === null || environment_1.DOCUMENTS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.DOCUMENTS_FIREBASE_ROUTE.replace("_", pdfName);
+                            const pdfName = data.pdf.split("firebase/")[1];
+                            const encodedPdfName = encodeURIComponent(pdfName);
+                            data.pdf = environment_1.DOCUMENTS_FIREBASE_ROUTE === null || environment_1.DOCUMENTS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.DOCUMENTS_FIREBASE_ROUTE.replace("_", encodedPdfName);
                             data.pdfNameToDelete = pdfName;
                             data.pdfName = pdfName;
                         }
-                        else if (!data.pdf.includes("firebase/")) {
+                        else {
                             const pdfName = data.pdf;
                             data.pdf = `${environment_1.BRANDS_IMAGES_ROUTE}/${pdfName}`;
                             data.pdfName = pdfName;
@@ -214,12 +213,13 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     }
                     if (data.pdf_recomendado) {
                         if (data.pdf_recomendado.includes("firebase/")) {
-                            const pdfName = data.pdf_recomendado.split("/")[1];
-                            data.pdf_recomendado = environment_1.DOCUMENTS_FIREBASE_ROUTE === null || environment_1.DOCUMENTS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.DOCUMENTS_FIREBASE_ROUTE.replace("_", pdfName);
+                            const pdfName = data.pdf_recomendado.split("firebase/")[1];
+                            const encodedPdfName = encodeURIComponent(pdfName);
+                            data.pdf_recomendado = environment_1.DOCUMENTS_FIREBASE_ROUTE === null || environment_1.DOCUMENTS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.DOCUMENTS_FIREBASE_ROUTE.replace("_", encodedPdfName);
                             data.pdfRecomendadoNameToDelete = pdfName;
                             data.pdfRecomendadoName = pdfName;
                         }
-                        else if (!data.pdf_recomendado.includes("firebase/")) {
+                        else {
                             const pdfName = data.pdf_recomendado;
                             data.pdf_recomendado = `${environment_1.BRANDS_IMAGES_ROUTE}/${pdfName}`;
                             data.pdfRecomendadoName = pdfName;
@@ -236,8 +236,9 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                         row.value = `${environment_1.FAQS_IMAGES_ROUTE}/`.concat(row.value);
                     }
                     else if (row.value.includes("firebase/")) {
-                        const imageName = row.value.split("/")[1];
-                        const url = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", imageName);
+                        const imageName = row.value.split("firebase/")[1];
+                        const encodedImageName = encodeURIComponent(imageName);
+                        const url = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedImageName);
                         row.value = url;
                     }
                     row.value = row.value.replace("#txt#", "").replace("#img#", "");
@@ -258,32 +259,30 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 response.data.forEach((data) => {
                     if (data.foto1) {
                         if (data.foto1.includes("firebase/")) {
-                            const foto1Name = data.foto1.split("/")[1];
-                            data.foto1 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", foto1Name);
-                            data.thumbnail1 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", foto1Name);
+                            const foto1Name = data.foto1.split("firebase/")[1];
+                            const encodedFoto1Name = encodeURIComponent(foto1Name);
+                            data.foto1 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
+                            data.thumbnail1 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
                             data.foto1NameToDelete = foto1Name;
                         }
                         else {
-                            const foto1Name = data.foto1;
-                            data.foto1 = `${environment_1.IMAGES_ROUTE}/${foto1Name}`;
-                            data.thumbnail1 = `${environment_1.THUMBNAILS_ROUTE}/${foto1Name}`;
-                            // data.foto1 = `${IMAGES_ROUTE}%2F${foto1Name}?alt=media`;
-                            // data.thumbnail1 = `${THUMBNAILS_ROUTE}%2F${foto1Name}?alt=media`;
+                            const encodedFoto1Name = encodeURIComponent(data.foto1);
+                            data.foto1 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
+                            data.thumbnail1 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
                         }
                     }
                     if (data.foto2) {
                         if (data.foto2.includes("firebase/")) {
-                            const foto2Name = data.foto2.split("/")[1];
-                            data.foto2 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", foto2Name);
-                            data.thumbnail2 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", foto2Name);
+                            const foto2Name = data.foto2.split("firebase/")[1];
+                            const encodedFoto2Name = encodeURIComponent(foto2Name);
+                            data.foto2 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
+                            data.thumbnail2 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
                             data.foto2NameToDelete = foto2Name;
                         }
                         else {
-                            const foto2Name = data.foto2;
-                            data.foto2 = `${environment_1.IMAGES_ROUTE}/${foto2Name}`;
-                            data.thumbnail2 = `${environment_1.THUMBNAILS_ROUTE}/${foto2Name}`;
-                            // data.foto2 = `${IMAGES_ROUTE}/%2F${foto2Name}?alt=media`;
-                            // data.thumbnail2 = `${THUMBNAILS_ROUTE}/%2F${foto2Name}?alt=media`;
+                            const encodedFoto2Name = encodeURIComponent(data.foto2);
+                            data.foto2 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
+                            data.thumbnail2 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
                         }
                     }
                     if (data.precio) {
@@ -322,17 +321,16 @@ const getProductByID = (req, res) => __awaiter(void 0, void 0, void 0, function*
             response.data.forEach((data) => {
                 if (data.foto1) {
                     if (data.foto1.includes("firebase/")) {
-                        const foto1Name = data.foto1.split("/")[1];
-                        data.foto1 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", foto1Name);
-                        data.thumbnail1 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", foto1Name);
+                        const foto1Name = data.foto1.split("firebase/")[1];
+                        const encodedFoto1Name = encodeURIComponent(foto1Name);
+                        data.foto1 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
+                        data.thumbnail1 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
                         data.foto1NameToDelete = foto1Name;
                     }
-                    else if (!data.foto1.includes("firebase/")) {
-                        const foto1Name = data.foto1;
-                        data.foto1 = `${environment_1.IMAGES_ROUTE}/${foto1Name}`;
-                        data.thumbnail1 = `${environment_1.THUMBNAILS_ROUTE}/${foto1Name}`;
-                        // data.foto1 = `${IMAGES_ROUTE}%2F${foto1Name}?alt=media`;
-                        // data.thumbnail1 = `${THUMBNAILS_ROUTE}%2F${foto1Name}?alt=media`;
+                    else {
+                        const encodedFoto1Name = encodeURIComponent(data.foto1);
+                        data.foto1 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
+                        data.thumbnail1 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto1Name);
                     }
                 }
                 else {
@@ -341,17 +339,16 @@ const getProductByID = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 }
                 if (data.foto2) {
                     if (data.foto2.includes("firebase/")) {
-                        const foto2Name = data.foto2.split("/")[1];
-                        data.foto2 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", foto2Name);
-                        data.thumbnail2 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", foto2Name);
+                        const foto2Name = data.foto2.split("firebase/")[1];
+                        const encodedFoto2Name = encodeURIComponent(foto2Name);
+                        data.foto2 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
+                        data.thumbnail2 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
                         data.foto2NameToDelete = foto2Name;
                     }
-                    else if (!data.foto2.includes("firebase/")) {
-                        const foto2Name = data.foto2;
-                        data.foto2 = `${environment_1.IMAGES_ROUTE}/${foto2Name}`;
-                        data.thumbnail2 = `${environment_1.THUMBNAILS_ROUTE}/${foto2Name}`;
-                        // data.foto2 = `${IMAGES_ROUTE}%2F${foto2Name}?alt=media`;
-                        // data.thumbnail2 = `${THUMBNAILS_ROUTE}%2F${foto2Name}?alt=media`;
+                    else {
+                        const encodedFoto2Name = encodeURIComponent(data.foto2);
+                        data.foto2 = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
+                        data.thumbnail2 = environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto2Name);
                     }
                 }
                 else {
@@ -385,12 +382,12 @@ const getProductsByIDs = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const response = yield (0, dao_1.getDao)().getProductsByIDs({ fieldsArr: fieldsArrOBJ, productsIDsArr: idsArrOBJ });
         const globalMultiplier = yield (0, database_1.getGlobalMultiplier)();
         if (response.success && response.data) {
-            response.data = response.data.map((data) => (Object.assign(Object.assign({}, data), { foto1: data.foto1 ? `${environment_1.IMAGES_ROUTE}/${data.foto1}` : "", foto2: data.foto2 ? `${environment_1.IMAGES_ROUTE}/${data.foto2}` : "", thumbnail1: data.foto1 ? `${environment_1.THUMBNAILS_ROUTE}/${data.foto1}` : "", thumbnail2: data.foto2 ? `${environment_1.THUMBNAILS_ROUTE}/${data.foto2}` : "", 
-                // foto1: data.foto1 ? `${IMAGES_ROUTE}%2F${data.foto1}?alt=media` : "", 
-                // foto2: data.foto2 ? `${IMAGES_ROUTE}%2F${data.foto2}?alt=media` : "", 
-                // thumbnail1: data.foto1 ? `${THUMBNAILS_ROUTE}%2F${data.foto1}?alt=media` : "",
-                // thumbnail2: data.foto2 ? `${THUMBNAILS_ROUTE}%2F${data.foto2}?alt=media` : "",
-                precio: Math.ceil(data.precio * globalMultiplier), precioDolar: data.precio })));
+            response.data = response.data.map((data) => (Object.assign(Object.assign({}, data), { 
+                // foto1: data.foto1 ? `${IMAGES_ROUTE}/${data.foto1}` : "", 
+                // foto2: data.foto2 ? `${IMAGES_ROUTE}/${data.foto2}` : "", 
+                // thumbnail1: data.foto1 ? `${THUMBNAILS_ROUTE}/${data.foto1}` : "",
+                // thumbnail2: data.foto2 ? `${THUMBNAILS_ROUTE}/${data.foto2}` : "",
+                foto1: data.foto1 ? `${environment_1.IMAGES_ROUTE}%2F${data.foto1}?alt=media` : "", foto2: data.foto2 ? `${environment_1.IMAGES_ROUTE}%2F${data.foto2}?alt=media` : "", thumbnail1: data.foto1 ? `${environment_1.THUMBNAILS_ROUTE}%2F${data.foto1}?alt=media` : "", thumbnail2: data.foto2 ? `${environment_1.THUMBNAILS_ROUTE}%2F${data.foto2}?alt=media` : "", precio: Math.ceil(data.precio * globalMultiplier), precioDolar: data.precio })));
             res.status(200).json(response);
         }
         else {

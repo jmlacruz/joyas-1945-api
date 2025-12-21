@@ -45,18 +45,16 @@ export const getProductsFiltered = async (req: Request, res: Response) => {
                 (data: Partial<Producto>) => {
                     if (data.foto1) {
                         if (data.foto1.includes("firebase/")) {
-                            const foto1Name = data.foto1.split("/")[1];
-                            data.foto1 = IMAGES_FIREBASE_ROUTE?.replace("_", foto1Name);
-                            data.thumbnail1 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", foto1Name);
+                            const foto1Name = data.foto1.split("firebase/")[1];
+                            const encodedFoto1Name = encodeURIComponent(foto1Name);
+                            data.foto1 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
+                            data.thumbnail1 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
                             data.foto1NameToDelete = foto1Name;
-                        } else
-                            if (!data.foto1.includes("firebase/")) {
-                                const foto1Name = data.foto1;
-                                data.foto1 = `${IMAGES_ROUTE}/${foto1Name}`;
-                                data.thumbnail1 = `${THUMBNAILS_ROUTE}/${foto1Name}`;
-                                // data.foto1 = `${IMAGES_ROUTE}%2F${foto1Name}?alt=media`;
-                                // data.thumbnail1 = `${THUMBNAILS_ROUTE}%2F${foto1Name}?alt=media`;
-                            }
+                        } else {
+                            const encodedFoto1Name = encodeURIComponent(data.foto1);
+                            data.foto1 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
+                            data.thumbnail1 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
+                        }
                     } else {
                         data.foto1 = "";
                         data.thumbnail1 = "";
@@ -64,18 +62,16 @@ export const getProductsFiltered = async (req: Request, res: Response) => {
 
                     if (data.foto2) {
                         if (data.foto2.includes("firebase/")) {
-                            const foto2Name = data.foto2.split("/")[1];
-                            data.foto2 = IMAGES_FIREBASE_ROUTE?.replace("_", foto2Name);
-                            data.thumbnail2 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", foto2Name);
+                            const foto2Name = data.foto2.split("firebase/")[1];
+                            const encodedFoto2Name = encodeURIComponent(foto2Name);
+                            data.foto2 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
+                            data.thumbnail2 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
                             data.foto2NameToDelete = foto2Name;
-                        } else
-                            if (!data.foto2.includes("firebase/")) {
-                                const foto2Name = data.foto2;
-                                data.foto2 = `${IMAGES_ROUTE}/${foto2Name}`;
-                                data.thumbnail2 = `${THUMBNAILS_ROUTE}/${foto2Name}`;
-                                // data.foto2 = `${IMAGES_ROUTE}%2F${foto2Name}?alt=media`;
-                                // data.thumbnail2 = `${THUMBNAILS_ROUTE}%2F${foto2Name}?alt=media`;
-                            }
+                        } else {
+                            const encodedFoto2Name = encodeURIComponent(data.foto2);
+                            data.foto2 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
+                            data.thumbnail2 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
+                        }
                     } else {
                         data.foto2 = "";
                         data.thumbnail2 = "";
@@ -162,64 +158,64 @@ export const getTable = async (req: Request, res: Response) => {
                     (data: Partial<Marca>) => {
                         if (data.imagen) {
                             if (data.imagen.includes("firebase/")) {
-                                const imageName = data.imagen.split("/")[1];
-                                data.imagen = IMAGES_FIREBASE_ROUTE?.replace("_", imageName);
-                                data.thumbnailImagen = THUMBNAILS_FIREBASE_ROUTE?.replace("_", imageName);
+                                const imageName = data.imagen.split("firebase/")[1];
+                                const encodedImageName = encodeURIComponent(imageName);
+                                data.imagen = IMAGES_FIREBASE_ROUTE?.replace("_", encodedImageName);
+                                data.thumbnailImagen = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedImageName);
                                 data.imagenNameToDelete = imageName;
-                            } else
-                                if (!data.imagen.includes("firebase/")) {
-                                    const imageName = data.imagen;
-                                    data.imagen = `${BRANDS_IMAGES_ROUTE}/${imageName}`;
-                                    data.thumbnailImagen = "";
-                                }
+                            } else {
+                                const imageName = data.imagen;
+                                data.imagen = `${BRANDS_IMAGES_ROUTE}/${imageName}`;
+                                data.thumbnailImagen = "";
+                            }
                         } else {
                             data.imagen = "";
                         }
 
                         if (data.logo) {
                             if (data.logo.includes("firebase/")) {
-                                const logoName = data.logo.split("/")[1];
-                                data.logo = IMAGES_FIREBASE_ROUTE?.replace("_", logoName);
-                                data.thumbnailLogo = THUMBNAILS_FIREBASE_ROUTE?.replace("_", logoName);
+                                const logoName = data.logo.split("firebase/")[1];
+                                const encodedLogoName = encodeURIComponent(logoName);
+                                data.logo = IMAGES_FIREBASE_ROUTE?.replace("_", encodedLogoName);
+                                data.thumbnailLogo = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedLogoName);
                                 data.logoNameToDelete = logoName;
-                            } else
-                                if (!data.logo.includes("firebase/")) {
-                                    const logoName = data.logo;
-                                    data.logo = `${BRANDS_IMAGES_ROUTE}/${logoName}`;
-                                    data.thumbnailLogo = "";
-                                }
+                            } else {
+                                const logoName = data.logo;
+                                data.logo = `${BRANDS_IMAGES_ROUTE}/${logoName}`;
+                                data.thumbnailLogo = "";
+                            }
                         } else {
                             data.logo= "";
                         }
 
                         if (data.pdf) {
                             if (data.pdf.includes("firebase/")) {
-                                const pdfName = data.pdf.split("/")[1];
-                                data.pdf = DOCUMENTS_FIREBASE_ROUTE?.replace("_", pdfName);
+                                const pdfName = data.pdf.split("firebase/")[1];
+                                const encodedPdfName = encodeURIComponent(pdfName);
+                                data.pdf = DOCUMENTS_FIREBASE_ROUTE?.replace("_", encodedPdfName);
                                 data.pdfNameToDelete = pdfName;
                                 data.pdfName = pdfName;
-                            } else
-                                if (!data.pdf.includes("firebase/")) {
-                                    const pdfName = data.pdf;
-                                    data.pdf = `${BRANDS_IMAGES_ROUTE}/${pdfName}`;
-                                    data.pdfName = pdfName;
-                                }
+                            } else {
+                                const pdfName = data.pdf;
+                                data.pdf = `${BRANDS_IMAGES_ROUTE}/${pdfName}`;
+                                data.pdfName = pdfName;
+                            }
                         } else {
                             data.pdf = "";
                         }
 
                         if (data.pdf_recomendado) {
                             if (data.pdf_recomendado.includes("firebase/")) {
-                                const pdfName = data.pdf_recomendado.split("/")[1];
-                                data.pdf_recomendado = DOCUMENTS_FIREBASE_ROUTE?.replace("_", pdfName);
+                                const pdfName = data.pdf_recomendado.split("firebase/")[1];
+                                const encodedPdfName = encodeURIComponent(pdfName);
+                                data.pdf_recomendado = DOCUMENTS_FIREBASE_ROUTE?.replace("_", encodedPdfName);
                                 data.pdfRecomendadoNameToDelete = pdfName;
                                 data.pdfRecomendadoName = pdfName;
-                            } else
-                                if (!data.pdf_recomendado.includes("firebase/")) {
-                                    const pdfName = data.pdf_recomendado;
-                                    data.pdf_recomendado = `${BRANDS_IMAGES_ROUTE}/${pdfName}`;
-                                    data.pdfRecomendadoName = pdfName;
-                                }
+                            } else {
+                                const pdfName = data.pdf_recomendado;
+                                data.pdf_recomendado = `${BRANDS_IMAGES_ROUTE}/${pdfName}`;
+                                data.pdfRecomendadoName = pdfName;
+                            }
                         } else {
                             data.pdf_recomendado = "";
                         }
@@ -231,8 +227,9 @@ export const getTable = async (req: Request, res: Response) => {
                     if (row.value.includes("#img#")) {                                                                                          // i concatenamos los nombres de las imagenes con sus rutas
                         row.value = `${FAQS_IMAGES_ROUTE}/`.concat(row.value);
                     } else if (row.value.includes("firebase/")) {
-                        const imageName = row.value.split("/")[1];
-                        const url = IMAGES_FIREBASE_ROUTE?.replace("_", imageName);
+                        const imageName = row.value.split("firebase/")[1];
+                        const encodedImageName = encodeURIComponent(imageName);
+                        const url = IMAGES_FIREBASE_ROUTE?.replace("_", encodedImageName);
                         row.value = url;
                     }
                     row.value = row.value.replace("#txt#", "").replace("#img#", "");
@@ -259,31 +256,29 @@ export const getTable = async (req: Request, res: Response) => {
                     (data: Partial<Producto>) => {
                         if (data.foto1) {
                             if (data.foto1.includes("firebase/")) {
-                                const foto1Name = data.foto1.split("/")[1];
-                                data.foto1 = IMAGES_FIREBASE_ROUTE?.replace("_", foto1Name);
-                                data.thumbnail1 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", foto1Name);
+                                const foto1Name = data.foto1.split("firebase/")[1];
+                                const encodedFoto1Name = encodeURIComponent(foto1Name);
+                                data.foto1 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
+                                data.thumbnail1 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
                                 data.foto1NameToDelete = foto1Name;
                             } else {
-                                const foto1Name = data.foto1;
-                                data.foto1 = `${IMAGES_ROUTE}/${foto1Name}`;
-                                data.thumbnail1 = `${THUMBNAILS_ROUTE}/${foto1Name}`;
-                                // data.foto1 = `${IMAGES_ROUTE}%2F${foto1Name}?alt=media`;
-                                // data.thumbnail1 = `${THUMBNAILS_ROUTE}%2F${foto1Name}?alt=media`;
+                                const encodedFoto1Name = encodeURIComponent(data.foto1);
+                                data.foto1 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
+                                data.thumbnail1 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
                             }
                         } 
 
                         if (data.foto2) {
                             if (data.foto2.includes("firebase/")) {
-                                const foto2Name = data.foto2.split("/")[1];
-                                data.foto2 = IMAGES_FIREBASE_ROUTE?.replace("_", foto2Name);
-                                data.thumbnail2 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", foto2Name);
+                                const foto2Name = data.foto2.split("firebase/")[1];
+                                const encodedFoto2Name = encodeURIComponent(foto2Name);
+                                data.foto2 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
+                                data.thumbnail2 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
                                 data.foto2NameToDelete = foto2Name;
                             } else {
-                                const foto2Name = data.foto2;
-                                data.foto2 = `${IMAGES_ROUTE}/${foto2Name}`;
-                                data.thumbnail2 = `${THUMBNAILS_ROUTE}/${foto2Name}`;
-                                // data.foto2 = `${IMAGES_ROUTE}/%2F${foto2Name}?alt=media`;
-                                // data.thumbnail2 = `${THUMBNAILS_ROUTE}/%2F${foto2Name}?alt=media`;
+                                const encodedFoto2Name = encodeURIComponent(data.foto2);
+                                data.foto2 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
+                                data.thumbnail2 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
                             }
                         } 
                         
@@ -326,18 +321,16 @@ export const getProductByID = async (req: Request, res: Response) => {
                 (data: Partial<Producto>) => {
                     if (data.foto1) {
                         if (data.foto1.includes("firebase/")) {
-                            const foto1Name = data.foto1.split("/")[1];
-                            data.foto1 = IMAGES_FIREBASE_ROUTE?.replace("_", foto1Name);
-                            data.thumbnail1 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", foto1Name);
+                            const foto1Name = data.foto1.split("firebase/")[1];
+                            const encodedFoto1Name = encodeURIComponent(foto1Name);
+                            data.foto1 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
+                            data.thumbnail1 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
                             data.foto1NameToDelete = foto1Name;
-                        } else
-                            if (!data.foto1.includes("firebase/")) {
-                                const foto1Name = data.foto1;
-                                data.foto1 = `${IMAGES_ROUTE}/${foto1Name}`;
-                                data.thumbnail1 = `${THUMBNAILS_ROUTE}/${foto1Name}`;
-                                // data.foto1 = `${IMAGES_ROUTE}%2F${foto1Name}?alt=media`;
-                                // data.thumbnail1 = `${THUMBNAILS_ROUTE}%2F${foto1Name}?alt=media`;
-                            }
+                        } else {
+                            const encodedFoto1Name = encodeURIComponent(data.foto1);
+                            data.foto1 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
+                            data.thumbnail1 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto1Name);
+                        }
                     } else {
                         data.foto1 = "";
                         data.thumbnail1 = "";
@@ -345,18 +338,16 @@ export const getProductByID = async (req: Request, res: Response) => {
                     
                     if (data.foto2) {
                         if (data.foto2.includes("firebase/")) {
-                            const foto2Name = data.foto2.split("/")[1];
-                            data.foto2 = IMAGES_FIREBASE_ROUTE?.replace("_", foto2Name);
-                            data.thumbnail2 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", foto2Name);
+                            const foto2Name = data.foto2.split("firebase/")[1];
+                            const encodedFoto2Name = encodeURIComponent(foto2Name);
+                            data.foto2 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
+                            data.thumbnail2 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
                             data.foto2NameToDelete = foto2Name;
-                        } else
-                            if (!data.foto2.includes("firebase/")) {
-                                const foto2Name = data.foto2;
-                                data.foto2 = `${IMAGES_ROUTE}/${foto2Name}`;
-                                data.thumbnail2 = `${THUMBNAILS_ROUTE}/${foto2Name}`;
-                                // data.foto2 = `${IMAGES_ROUTE}%2F${foto2Name}?alt=media`;
-                                // data.thumbnail2 = `${THUMBNAILS_ROUTE}%2F${foto2Name}?alt=media`;
-                            }
+                        } else {
+                            const encodedFoto2Name = encodeURIComponent(data.foto2);
+                            data.foto2 = IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
+                            data.thumbnail2 = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto2Name);
+                        }
                     } else {
                         data.foto2 = "";
                         data.thumbnail2 = "";
@@ -394,14 +385,14 @@ export const getProductsByIDs = async (req: Request, res: Response) => {
         if (response.success &&  response.data) {
             response.data = response.data.map((data: any) => ({
                 ...data, 
-                foto1: data.foto1 ? `${IMAGES_ROUTE}/${data.foto1}` : "", 
-                foto2: data.foto2 ? `${IMAGES_ROUTE}/${data.foto2}` : "", 
-                thumbnail1: data.foto1 ? `${THUMBNAILS_ROUTE}/${data.foto1}` : "",
-                thumbnail2: data.foto2 ? `${THUMBNAILS_ROUTE}/${data.foto2}` : "",
-                // foto1: data.foto1 ? `${IMAGES_ROUTE}%2F${data.foto1}?alt=media` : "", 
-                // foto2: data.foto2 ? `${IMAGES_ROUTE}%2F${data.foto2}?alt=media` : "", 
-                // thumbnail1: data.foto1 ? `${THUMBNAILS_ROUTE}%2F${data.foto1}?alt=media` : "",
-                // thumbnail2: data.foto2 ? `${THUMBNAILS_ROUTE}%2F${data.foto2}?alt=media` : "",
+                // foto1: data.foto1 ? `${IMAGES_ROUTE}/${data.foto1}` : "", 
+                // foto2: data.foto2 ? `${IMAGES_ROUTE}/${data.foto2}` : "", 
+                // thumbnail1: data.foto1 ? `${THUMBNAILS_ROUTE}/${data.foto1}` : "",
+                // thumbnail2: data.foto2 ? `${THUMBNAILS_ROUTE}/${data.foto2}` : "",
+                foto1: data.foto1 ? `${IMAGES_ROUTE}%2F${data.foto1}?alt=media` : "", 
+                foto2: data.foto2 ? `${IMAGES_ROUTE}%2F${data.foto2}?alt=media` : "", 
+                thumbnail1: data.foto1 ? `${THUMBNAILS_ROUTE}%2F${data.foto1}?alt=media` : "",
+                thumbnail2: data.foto2 ? `${THUMBNAILS_ROUTE}%2F${data.foto2}?alt=media` : "",
                 precio: Math.ceil(data.precio * globalMultiplier),                                          //Ajustamos el precio de salida según el multiplicador global
                 precioDolar: data.precio,
             }));

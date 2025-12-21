@@ -1,7 +1,7 @@
 "use strict";
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SYNC_DATA_CLIENTS_FILENAME = exports.SYNC_DATA_CODEPRICESTOCK_FILENAME = exports.SYNC_DATA_FTP_ADDRESS = exports.SYNC_DATA_FTP_USER = exports.SYNC_DATA_FTP_PASSWORD = exports.SYNC_DATA_ENDPOINT_PASSWORD = exports.ADJ_GOOGLE_PLACE_ID = exports.SERPAPI_GOOGLE_REVIEWS_API_KEY = exports.JWT3_SECRET = exports.GETSTREAM_APP_ID = exports.GETSTREAM_SECRET = exports.GETSTREAM_API_KEY = exports.JWT2_SECRET = exports.CART_REMINDER_WAIT_IN_HOURS = exports.CRON_API_KEY = exports.ADMINS_EMAILS_LIST = exports.BREVO_API_KEY = exports.FIREBASE_BUCKET_URL = exports.THUMBNAILS_WIDTH = exports.IMAGES_WIDTH = exports.SESSION_IDLE_TIMEOUT_DAYS = exports.JWT_EXPIRATION_TIME = exports.JWT_SECRET = exports.NODE_ENV = exports.DOCUMENTS_FIREBASE_ROUTE = exports.IMAGES_FIREBASE_ROUTE = exports.THUMBNAILS_FIREBASE_ROUTE = exports.BLOG_THUMBNAILS_ROUTE = exports.BLOG_IMAGES_ROUTE = exports.FAQS_IMAGES_ROUTE = exports.BRANDS_IMAGES_ROUTE = exports.THUMBNAILS_ROUTE = exports.IMAGES_ROUTE = exports.CORS_ALLOW_ORIGINS = exports.CURRENT_API_BASE_URL = exports.CURRENT_FRONT_BASE_URL = exports.CURRENT_DASHBOARD_BASE_URL = exports.mySQL_RemoteConfig = exports.mySQL_LocalConfig = void 0;
+exports.SYNC_DATA_CLIENTS_FILENAME = exports.SYNC_DATA_CODEPRICESTOCK_FILENAME = exports.SYNC_DATA_FTP_ADDRESS = exports.SYNC_DATA_FTP_USER = exports.SYNC_DATA_FTP_PASSWORD = exports.SYNC_DATA_ENDPOINT_PASSWORD = exports.GOOGLE_PLACE_ID = exports.API_GOOGLE_REVIEWS_API_KEY = exports.JWT3_SECRET = exports.GETSTREAM_APP_ID = exports.GETSTREAM_SECRET = exports.GETSTREAM_API_KEY = exports.JWT2_SECRET = exports.CART_REMINDER_WAIT_IN_HOURS = exports.ADMINS_EMAILS_LIST = exports.BREVO_API_KEY = exports.FIREBASE_BUCKET_URL = exports.THUMBNAILS_WIDTH = exports.IMAGES_WIDTH = exports.SESSION_IDLE_TIMEOUT_DAYS = exports.JWT_EXPIRATION_TIME = exports.JWT_SECRET = exports.NODE_ENV = exports.DOCUMENTS_FIREBASE_ROUTE = exports.IMAGES_FIREBASE_ROUTE = exports.THUMBNAILS_FIREBASE_ROUTE = exports.BLOG_THUMBNAILS_ROUTE = exports.BLOG_IMAGES_ROUTE = exports.FAQS_IMAGES_ROUTE = exports.BRANDS_IMAGES_ROUTE = exports.THUMBNAILS_ROUTE = exports.IMAGES_ROUTE = exports.CORS_ALLOW_ORIGINS = exports.CURRENT_API_BASE_URL = exports.CURRENT_FRONT_BASE_URL = exports.CURRENT_DASHBOARD_BASE_URL = exports.mySQL_RemoteConfig = exports.mySQL_LocalConfig = void 0;
 require("dotenv/config");
 // Helper function to parse SSL configuration
 const parseSSLConfig = (sslConfigString) => {
@@ -92,15 +92,14 @@ const getAdminsEmailList = () => {
     }
 };
 exports.ADMINS_EMAILS_LIST = getAdminsEmailList();
-exports.CRON_API_KEY = process.env.CRON_API_KEY;
 exports.CART_REMINDER_WAIT_IN_HOURS = process.env.CART_REMINDER_WAIT_IN_HOURS ? parseFloat(process.env.CART_REMINDER_WAIT_IN_HOURS) : 48;
 exports.JWT2_SECRET = process.env.JWT2_SECRET;
 exports.GETSTREAM_API_KEY = process.env.GETSTREAM_API_KEY;
 exports.GETSTREAM_SECRET = process.env.GETSTREAM_SECRET;
 exports.GETSTREAM_APP_ID = process.env.GETSTREAM_APP_ID;
 exports.JWT3_SECRET = process.env.JWT3_SECRET;
-exports.SERPAPI_GOOGLE_REVIEWS_API_KEY = process.env.SERPAPI_GOOGLE_REVIEWS_API_KEY;
-exports.ADJ_GOOGLE_PLACE_ID = process.env.ADJ_GOOGLE_PLACE_ID;
+exports.API_GOOGLE_REVIEWS_API_KEY = process.env.API_GOOGLE_REVIEWS_API_KEY;
+exports.GOOGLE_PLACE_ID = process.env.GOOGLE_PLACE_ID;
 exports.SYNC_DATA_ENDPOINT_PASSWORD = process.env.SYNC_DATA_ENDPOINT_PASSWORD;
 exports.SYNC_DATA_FTP_PASSWORD = process.env.SYNC_DATA_FTP_PASSWORD;
 exports.SYNC_DATA_FTP_USER = process.env.SYNC_DATA_FTP_USER;

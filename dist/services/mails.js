@@ -23,9 +23,9 @@ const sendMails = (data) => __awaiter(void 0, void 0, void 0, function* () {
                     "api-key": environment_1.BREVO_API_KEY,
                 },
                 body: JSON.stringify({
-                    sender: { name: "Almacen de Joyas", email: "almacendejoyasads@gmail.com" },
+                    sender: { name: "Joyas 1945", email: "joyas1945@gmail.com" },
                     to: data.emailsArr, /* Array de mails en formato [{ email: "email1" }, {email: "email2"}]*/
-                    subject: data.subject || "Nueva notificación de Almacén de Joyas",
+                    subject: data.subject || "Nueva notificación de Joyas 1945",
                     htmlContent: data.message
                 })
             });
