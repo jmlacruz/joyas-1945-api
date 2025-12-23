@@ -1,10 +1,40 @@
 import admin from "firebase-admin";
-import serviceKeys from "../credentials/firebase/joyas.json"; //Para que se puedan importar JSON hay que habilitar la opcion "resolveJsonModule": true," en "tsconfig.json"
 import { FIREBASE_BUCKET_URL } from "../environment";
 import { FunctionsCustomResponse } from "../types/types";
 
+// Construir ServiceAccount desde variables de entorno
+const getServiceAccount = (): admin.ServiceAccount => {
+    const requiredEnvVars = [
+        "FIREBASE_PROJECT_ID",
+        "FIREBASE_PRIVATE_KEY_ID",
+        "FIREBASE_PRIVATE_KEY",
+        "FIREBASE_CLIENT_EMAIL",
+        "FIREBASE_CLIENT_ID",
+        "FIREBASE_CLIENT_X509_CERT_URL"
+    ];
+
+    const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+    if (missingVars.length > 0) {
+        throw new Error(`Faltan variables de entorno requeridas para Firebase: ${missingVars.join(", ")}`);
+    }
+
+    return {
+        type: "service_account",
+        projectId: process.env.FIREBASE_PROJECT_ID!,
+        privateKeyId: process.env.FIREBASE_PRIVATE_KEY_ID!,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, "\n"),
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL!,
+        clientId: process.env.FIREBASE_CLIENT_ID!,
+        authUri: process.env.FIREBASE_AUTH_URI || "https://accounts.google.com/o/oauth2/auth",
+        tokenUri: process.env.FIREBASE_TOKEN_URI || "https://oauth2.googleapis.com/token",
+        authProviderX509CertUrl: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL || "https://www.googleapis.com/oauth2/v1/certs",
+        clientX509CertUrl: process.env.FIREBASE_CLIENT_X509_CERT_URL!,
+        universeDomain: process.env.FIREBASE_UNIVERSE_DOMAIN || "googleapis.com"
+    } as admin.ServiceAccount;
+};
+
 admin.initializeApp({
-    credential: admin.credential.cert(serviceKeys as admin.ServiceAccount),
+    credential: admin.credential.cert(getServiceAccount()),
     storageBucket: FIREBASE_BUCKET_URL
 });
 const bucket = admin.storage().bucket();

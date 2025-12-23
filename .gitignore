@@ -1,2 +1,7 @@
 /node_modules
 .env
+
+# Credenciales de Firebase y Google
+src/credentials/
+dist/credentials/
+**/credentials/**/*.json

@@ -14,10 +14,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadFileToFirebase = exports.deleteFileFromFirebase = void 0;
 const firebase_admin_1 = __importDefault(require("firebase-admin"));
-const joyas_json_1 = __importDefault(require("../credentials/firebase/joyas.json")); //Para que se puedan importar JSON hay que habilitar la opcion "resolveJsonModule": true," en "tsconfig.json"
 const environment_1 = require("../environment");
+// Construir ServiceAccount desde variables de entorno
+const getServiceAccount = () => {
+    const requiredEnvVars = [
+        "FIREBASE_PROJECT_ID",
+        "FIREBASE_PRIVATE_KEY_ID",
+        "FIREBASE_PRIVATE_KEY",
+        "FIREBASE_CLIENT_EMAIL",
+        "FIREBASE_CLIENT_ID",
+        "FIREBASE_CLIENT_X509_CERT_URL"
+    ];
+    const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+    if (missingVars.length > 0) {
+        throw new Error(`Faltan variables de entorno requeridas para Firebase: ${missingVars.join(", ")}`);
+    }
+    return {
+        type: "service_account",
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        privateKeyId: process.env.FIREBASE_PRIVATE_KEY_ID,
+        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        clientId: process.env.FIREBASE_CLIENT_ID,
+        authUri: process.env.FIREBASE_AUTH_URI || "https://accounts.google.com/o/oauth2/auth",
+        tokenUri: process.env.FIREBASE_TOKEN_URI || "https://oauth2.googleapis.com/token",
+        authProviderX509CertUrl: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL || "https://www.googleapis.com/oauth2/v1/certs",
+        clientX509CertUrl: process.env.FIREBASE_CLIENT_X509_CERT_URL,
+        universeDomain: process.env.FIREBASE_UNIVERSE_DOMAIN || "googleapis.com"
+    };
+};
 firebase_admin_1.default.initializeApp({
-    credential: firebase_admin_1.default.credential.cert(joyas_json_1.default),
+    credential: firebase_admin_1.default.credential.cert(getServiceAccount()),
     storageBucket: environment_1.FIREBASE_BUCKET_URL
 });
 const bucket = firebase_admin_1.default.storage().bucket();
