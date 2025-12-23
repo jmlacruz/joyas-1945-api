@@ -383,19 +383,20 @@ export const getProductsByIDs = async (req: Request, res: Response) => {
         const globalMultiplier = await getGlobalMultiplier();
 
         if (response.success &&  response.data) {
-            response.data = response.data.map((data: any) => ({
-                ...data, 
-                // foto1: data.foto1 ? `${IMAGES_ROUTE}/${data.foto1}` : "", 
-                // foto2: data.foto2 ? `${IMAGES_ROUTE}/${data.foto2}` : "", 
-                // thumbnail1: data.foto1 ? `${THUMBNAILS_ROUTE}/${data.foto1}` : "",
-                // thumbnail2: data.foto2 ? `${THUMBNAILS_ROUTE}/${data.foto2}` : "",
-                foto1: data.foto1 ? `${IMAGES_ROUTE}%2F${data.foto1}?alt=media` : "", 
-                foto2: data.foto2 ? `${IMAGES_ROUTE}%2F${data.foto2}?alt=media` : "", 
-                thumbnail1: data.foto1 ? `${THUMBNAILS_ROUTE}%2F${data.foto1}?alt=media` : "",
-                thumbnail2: data.foto2 ? `${THUMBNAILS_ROUTE}%2F${data.foto2}?alt=media` : "",
-                precio: Math.ceil(data.precio * globalMultiplier),                                          //Ajustamos el precio de salida según el multiplicador global
-                precioDolar: data.precio,
-            }));
+            response.data = response.data.map((data: any) => {
+                const encodedFoto1Name = data.foto1 ? encodeURIComponent(data.foto1) : "";
+                const encodedFoto2Name = data.foto2 ? encodeURIComponent(data.foto2) : "";
+                
+                return {
+                    ...data, 
+                    foto1: data.foto1 ? IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto1Name) : "", 
+                    foto2: data.foto2 ? IMAGES_FIREBASE_ROUTE?.replace("_", encodedFoto2Name) : "", 
+                    thumbnail1: data.foto1 ? THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto1Name) : "",
+                    thumbnail2: data.foto2 ? THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedFoto2Name) : "",
+                    precio: Math.ceil(data.precio * globalMultiplier),                                          //Ajustamos el precio de salida según el multiplicador global
+                    precioDolar: data.precio,
+                };
+            });
             res.status(200).json(response as DatabaseControllers_CustomResponse);
         } else {
             res.status(500).json(response as DatabaseControllers_CustomResponse);

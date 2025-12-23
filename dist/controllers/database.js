@@ -382,12 +382,11 @@ const getProductsByIDs = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const response = yield (0, dao_1.getDao)().getProductsByIDs({ fieldsArr: fieldsArrOBJ, productsIDsArr: idsArrOBJ });
         const globalMultiplier = yield (0, database_1.getGlobalMultiplier)();
         if (response.success && response.data) {
-            response.data = response.data.map((data) => (Object.assign(Object.assign({}, data), { 
-                // foto1: data.foto1 ? `${IMAGES_ROUTE}/${data.foto1}` : "", 
-                // foto2: data.foto2 ? `${IMAGES_ROUTE}/${data.foto2}` : "", 
-                // thumbnail1: data.foto1 ? `${THUMBNAILS_ROUTE}/${data.foto1}` : "",
-                // thumbnail2: data.foto2 ? `${THUMBNAILS_ROUTE}/${data.foto2}` : "",
-                foto1: data.foto1 ? `${environment_1.IMAGES_ROUTE}%2F${data.foto1}?alt=media` : "", foto2: data.foto2 ? `${environment_1.IMAGES_ROUTE}%2F${data.foto2}?alt=media` : "", thumbnail1: data.foto1 ? `${environment_1.THUMBNAILS_ROUTE}%2F${data.foto1}?alt=media` : "", thumbnail2: data.foto2 ? `${environment_1.THUMBNAILS_ROUTE}%2F${data.foto2}?alt=media` : "", precio: Math.ceil(data.precio * globalMultiplier), precioDolar: data.precio })));
+            response.data = response.data.map((data) => {
+                const encodedFoto1Name = data.foto1 ? encodeURIComponent(data.foto1) : "";
+                const encodedFoto2Name = data.foto2 ? encodeURIComponent(data.foto2) : "";
+                return Object.assign(Object.assign({}, data), { foto1: data.foto1 ? environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto1Name) : "", foto2: data.foto2 ? environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedFoto2Name) : "", thumbnail1: data.foto1 ? environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto1Name) : "", thumbnail2: data.foto2 ? environment_1.THUMBNAILS_FIREBASE_ROUTE === null || environment_1.THUMBNAILS_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.THUMBNAILS_FIREBASE_ROUTE.replace("_", encodedFoto2Name) : "", precio: Math.ceil(data.precio * globalMultiplier), precioDolar: data.precio });
+            });
             res.status(200).json(response);
         }
         else {
