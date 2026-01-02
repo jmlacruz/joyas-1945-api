@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { getDao } from "../dao";
 import { JWT_EXPIRATION_TIME, JWT_SECRET } from "../environment";
 import { CustomError } from "../types/customError";
 import { LogControllers_CustomResponse, LoginData, SessionUserData, Usuario } from "../types/types";
 import { getCurrentDateTime } from "../utils/utils";
+import { signJwt } from "../utils/jwt";
 
 export const login = async (req: Request, res: Response) => {
     try {
@@ -37,7 +37,7 @@ export const login = async (req: Request, res: Response) => {
                 city: userData.ciudad,
                 token: "",
             };
-            const token = jwt.sign(userDataForToken, JWT_SECRET, {expiresIn: JWT_EXPIRATION_TIME});
+            const token = signJwt(userDataForToken);
             userDataForToken.token = token;
             
             // Update last_activity_at after successful login

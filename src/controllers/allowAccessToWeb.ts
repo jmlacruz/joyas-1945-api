@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { getDao } from "../dao";
 import { CURRENT_FRONT_BASE_URL, JWT_EXPIRATION_TIME, JWT_SECRET } from "../environment";
 import { CustomError } from "../types/customError";
 import { DatabaseControllers_CustomResponse, SessionUserData, Usuario } from "../types/types";
 import { getCurrentDateTime } from "../utils/utils";
+import { signJwt } from "../utils/jwt";
 
 export const allowAccessToWeb = async (req: Request, res: Response) => {
     try {
@@ -36,7 +36,7 @@ export const allowAccessToWeb = async (req: Request, res: Response) => {
                 userId: userData.id.toString(), city: userData.ciudad,
                 token: "",
             };
-            const token = jwt.sign(userDataForToken, JWT_SECRET, {expiresIn: JWT_EXPIRATION_TIME});
+            const token = signJwt(userDataForToken);
             
             // Update last_activity_at after successful token creation
             await getDao().updateTable({
