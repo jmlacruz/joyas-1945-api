@@ -40,10 +40,10 @@ const getProductsFiltered = (req, res) => __awaiter(void 0, void 0, void 0, func
         const categoriesArrOBJ = (0, utils_1.isValidJSON)(categoriesArrJSON) ? JSON.parse(categoriesArrJSON) : [];
         const priceRangeArrJSON = req.query.priceRange;
         const priceRangeArrOBJ = (0, utils_1.isValidJSON)(priceRangeArrJSON) ? JSON.parse(priceRangeArrJSON) : [];
-        const globalMultiplier = yield (0, database_1.getGlobalMultiplier)();
+        // const globalMultiplier = await getGlobalMultiplier();
         if ((0, validations_1.validatePriceRange)(priceRangeArrOBJ)) {
-            priceRangeArrOBJ[0] = priceRangeArrOBJ[0] / globalMultiplier;
-            priceRangeArrOBJ[1] = priceRangeArrOBJ[1] / globalMultiplier;
+            // priceRangeArrOBJ[0] = priceRangeArrOBJ[0] / globalMultiplier;
+            // priceRangeArrOBJ[1] = priceRangeArrOBJ[1] / globalMultiplier;
         }
         else {
             priceRangeArrOBJ.length = 0;
@@ -287,7 +287,7 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     }
                     if (data.precio) {
                         data.precioDolar = data.precio;
-                        data.precio = Math.ceil(data.precio * globalMultiplier);
+                        // data.precio = Math.ceil(data.precio * globalMultiplier);
                     }
                 });
             }

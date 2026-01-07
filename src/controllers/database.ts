@@ -29,11 +29,11 @@ export const getProductsFiltered = async (req: Request, res: Response) => {
         const priceRangeArrJSON = req.query.priceRange as string;
         const priceRangeArrOBJ = isValidJSON(priceRangeArrJSON) ? JSON.parse(priceRangeArrJSON) : [];
                                                         
-        const globalMultiplier = await getGlobalMultiplier();
+        // const globalMultiplier = await getGlobalMultiplier();
 
         if (validatePriceRange(priceRangeArrOBJ)) {
-            priceRangeArrOBJ[0] = priceRangeArrOBJ[0] / globalMultiplier;
-            priceRangeArrOBJ[1] = priceRangeArrOBJ[1] / globalMultiplier;
+            // priceRangeArrOBJ[0] = priceRangeArrOBJ[0] / globalMultiplier;
+            // priceRangeArrOBJ[1] = priceRangeArrOBJ[1] / globalMultiplier;
         } else {
             priceRangeArrOBJ.length = 0;      
         }
@@ -284,7 +284,7 @@ export const getTable = async (req: Request, res: Response) => {
                         
                         if (data.precio) {
                             data.precioDolar = data.precio;
-                            data.precio = Math.ceil(data.precio * globalMultiplier);
+                            // data.precio = Math.ceil(data.precio * globalMultiplier);
                         }
                     }
                 );                                                                                   

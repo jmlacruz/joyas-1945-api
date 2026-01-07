@@ -16,6 +16,7 @@ exports.mySQLActions = void 0;
 const knex_1 = __importDefault(require("knex"));
 const environment_1 = require("../environment");
 const utils_1 = require("../utils/utils");
+const validations_1 = require("../validations");
 const mySQLLocalConfig = {
     client: "mysql2",
     connection: {
@@ -71,7 +72,7 @@ class mySQLActions {
                 if (options.categories && options.categories.length) {
                     query.whereIn("categoria", options.categories);
                 }
-                if (options.priceRange && options.priceRange.length) {
+                if (options.priceRange && (0, validations_1.validatePriceRange)(options.priceRange)) {
                     query.whereBetween("precio", options.priceRange);
                 }
                 if (options.brand) {
@@ -126,7 +127,7 @@ class mySQLActions {
                 if (options.categories && options.categories.length) {
                     query.whereIn("categoria", options.categories);
                 }
-                if (options.priceRange && options.priceRange.length) {
+                if (options.priceRange && (0, validations_1.validatePriceRange)(options.priceRange)) {
                     query.whereBetween("precio", options.priceRange);
                 }
                 if (options.brand) {

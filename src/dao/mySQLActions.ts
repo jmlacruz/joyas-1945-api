@@ -2,7 +2,8 @@ import knex, { Knex } from "knex";
 import { mySQL_LocalConfig, mySQL_RemoteConfig, NODE_ENV } from "../environment";
 import { ProductDataForSync } from "../types/misc";
 import { CartDataForDBFromAPI, CartDataForDBFromFront, FilterOrderByTypes, MySQLActions_CustomResponse, NewProductsOrderArr, NotificationType } from "../types/types";
-import { isValidNoEmptyArray, getCurrentDateTime } from "../utils/utils";
+import { getCurrentDateTime, isValidNoEmptyArray } from "../utils/utils";
+import { validatePriceRange } from "../validations";
 
 const mySQLLocalConfig = {
     client: "mysql2",
@@ -66,7 +67,7 @@ export class mySQLActions {
                 query.whereIn("categoria", options.categories);
             }
 
-            if (options.priceRange && options.priceRange.length) {
+            if (options.priceRange && validatePriceRange(options.priceRange)) {
                 query.whereBetween("precio", options.priceRange);
             }
     
@@ -129,7 +130,7 @@ export class mySQLActions {
                 query.whereIn("categoria", options.categories);
             }
 
-            if (options.priceRange && options.priceRange.length) {
+            if (options.priceRange && validatePriceRange(options.priceRange)) {
                 query.whereBetween("precio", options.priceRange);
             }
 
