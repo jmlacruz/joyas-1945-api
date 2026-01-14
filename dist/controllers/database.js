@@ -233,14 +233,19 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             if (tableName === "faqs_answer") { //Si requerimos la tabla "faqs_answer" le agregamos las rutas de las imágenes
                 response.data.forEach((row) => {
                     if (row.value.includes("#img#")) { // i concatenamos los nombres de las imagenes con sus rutas
-                        row.value = `${environment_1.FAQS_IMAGES_ROUTE}/`.concat(row.value);
-                    }
-                    else if (row.value.includes("firebase/")) {
-                        const imageName = row.value.split("firebase/")[1];
+                        // row.value = `${FAQS_IMAGES_ROUTE}/`.concat(row.value);
+                        // const imageName = row.value.split("firebase/")[1];
+                        const imageName = row.value.replace("#img#", "");
                         const encodedImageName = encodeURIComponent(imageName);
-                        const url = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("_", encodedImageName);
+                        const url = environment_1.IMAGES_FIREBASE_ROUTE === null || environment_1.IMAGES_FIREBASE_ROUTE === void 0 ? void 0 : environment_1.IMAGES_FIREBASE_ROUTE.replace("images%2F_", `faqs%2F${encodedImageName}`);
                         row.value = url;
                     }
+                    // } else if (row.value.includes("firebase/")) {
+                    //     const imageName = row.value.split("firebase/")[1];
+                    //     const encodedImageName = encodeURIComponent(imageName);
+                    //     const url = IMAGES_FIREBASE_ROUTE?.replace("_", encodedImageName);
+                    //     row.value = url;
+                    // }
                     row.value = row.value.replace("#txt#", "").replace("#img#", "");
                 });
             }
