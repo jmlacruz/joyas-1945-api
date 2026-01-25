@@ -60,9 +60,9 @@ export const generateOrder = async (data: {userEmail: string, orderData: OrderDa
     const productsDataFields: (keyof Producto)[] = ["precio", "id"];
     const response3 = await getDao().getProductsByIDs({fieldsArr: productsDataFields, productsIDsArr: cartItemsIDs});
     if (!response3.success || !response3.data || !response3.data.length) return {success: false, message: `Error al obtener datos de productos: ${response3.message}`, data: null};
-    const productsData: Pick<Producto, "precio" | "id">[] = response3.data;
+    const productsData: Pick<Producto, "precio" | "id" | "con_descuento" | "porcentaje_descuento" | "precio_full">[] = response3.data;
     type AditionalInfo = Required<Pick<CartItem, "quantity" | "observation">>;
-    const productsDataWithAditionalInfo: (Pick<Producto, "precio" | "id"> & AditionalInfo)[] = productsData.map((product) => 
+    const productsDataWithAditionalInfo: (Pick<Producto, "precio" | "id" | "con_descuento" | "porcentaje_descuento" | "precio_full"> & AditionalInfo)[] = productsData.map((product) => 
     {
         const cartItem = cart.find((item) => item.itemId === product.id);
         return ({ ...product, quantity: cartItem?.quantity || 0, observation: cartItem?.observation || ""});

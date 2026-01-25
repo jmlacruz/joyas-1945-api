@@ -47,6 +47,10 @@ class mySQLActions {
                 mySQLClient = environment_1.NODE_ENV === "production" ? (0, knex_1.default)(mySQLRemoteConfig) : (0, knex_1.default)(mySQLLocalConfig);
                 console.log(environment_1.NODE_ENV === "production" ? mySQLRemoteConfig : mySQLLocalConfig);
                 const response = yield mySQLClient.select("*").from("producto").limit(1);
+                // Asegurar columnas de descuento en tabla producto
+                yield this.insertColumnIfNotExists({ tableName: "producto", columnName: "con_descuento", columnType: "BOOLEAN DEFAULT FALSE" });
+                yield this.insertColumnIfNotExists({ tableName: "producto", columnName: "porcentaje_descuento", columnType: "DECIMAL(5,2) DEFAULT 0" });
+                yield this.insertColumnIfNotExists({ tableName: "producto", columnName: "precio_full", columnType: "DECIMAL(10,2) DEFAULT 0" });
                 return ({ success: true, message: `Conexión a la base de datos exitosa --- ${response[0].nombre} --- Entorno: ${environment_1.NODE_ENV || "Desarrollo"}` });
             }
             catch (err) {

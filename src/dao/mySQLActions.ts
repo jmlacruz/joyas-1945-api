@@ -38,6 +38,12 @@ export class mySQLActions {
             mySQLClient = NODE_ENV === "production" ? knex(mySQLRemoteConfig) : knex(mySQLLocalConfig);
             console.log(NODE_ENV === "production" ? mySQLRemoteConfig : mySQLLocalConfig);
             const response = await mySQLClient.select("*").from("producto").limit(1);
+
+            // Asegurar columnas de descuento en tabla producto
+            await this.insertColumnIfNotExists({tableName: "producto", columnName: "con_descuento", columnType: "BOOLEAN DEFAULT FALSE"});
+            await this.insertColumnIfNotExists({tableName: "producto", columnName: "porcentaje_descuento", columnType: "DECIMAL(5,2) DEFAULT 0"});
+            await this.insertColumnIfNotExists({tableName: "producto", columnName: "precio_full", columnType: "DECIMAL(10,2) DEFAULT 0"});
+
             return ({success: true , message: `Conexión a la base de datos exitosa --- ${response[0].nombre} --- Entorno: ${NODE_ENV || "Desarrollo"}`});
         } catch (err) {
             const message = err instanceof Error ? "Error de conexión a la base de datos: " + err.message : "ERROR: " + err;

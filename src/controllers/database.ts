@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import { getDao } from "../dao";
 import { tablesForDeleteByAdmins, tablesForDeleteByFrontEnd, tablesForReadByAdmins, tablesForReadByFrontEnd, tablesForWriteByAdmins, tablesForWriteByFrontEnd, userDefaultValues } from "../data/data";
-import { BLOG_IMAGES_ROUTE, BLOG_THUMBNAILS_ROUTE, BRANDS_IMAGES_ROUTE, CURRENT_API_BASE_URL, DOCUMENTS_FIREBASE_ROUTE, FAQS_IMAGES_ROUTE, IMAGES_FIREBASE_ROUTE, IMAGES_ROUTE, JWT3_SECRET, THUMBNAILS_FIREBASE_ROUTE, THUMBNAILS_ROUTE } from "../environment";
+import { BLOG_IMAGES_ROUTE, BLOG_THUMBNAILS_ROUTE, BRANDS_IMAGES_ROUTE, CURRENT_API_BASE_URL, DOCUMENTS_FIREBASE_ROUTE, IMAGES_FIREBASE_ROUTE, JWT3_SECRET, THUMBNAILS_FIREBASE_ROUTE } from "../environment";
 import { sendMails } from "../services/mails";
 import { CustomError } from "../types/customError";
 import { CartDataForDBFromFront, DatabaseControllers_CustomResponse, FilterOrderByTypes, Log, Marca, NewProductsOrderArr, Producto, Usuario } from "../types/types";
@@ -255,9 +255,7 @@ export const getTable = async (req: Request, res: Response) => {
                     delete userData.token;
                 });                                                                                    
             }
-            if (tableName === "producto") {                                                                                                      //Si se requiere la tabla "usuario" no enviamos el password
-                const globalMultiplier = await getGlobalMultiplier();
-                
+            if (tableName === "producto") {                                                                                                      //Si se requiere la tabla "usuario" no enviamos el password                
                 response.data.forEach(
                     (data: Partial<Producto>) => {
                         if (data.foto1) {

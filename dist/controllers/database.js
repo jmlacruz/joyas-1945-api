@@ -259,8 +259,7 @@ const getTable = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     delete userData.token;
                 });
             }
-            if (tableName === "producto") { //Si se requiere la tabla "usuario" no enviamos el password
-                const globalMultiplier = yield (0, database_1.getGlobalMultiplier)();
+            if (tableName === "producto") { //Si se requiere la tabla "usuario" no enviamos el password                
                 response.data.forEach((data) => {
                     if (data.foto1) {
                         if (data.foto1.includes("firebase/")) {
