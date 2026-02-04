@@ -698,6 +698,8 @@ export class mySQLActions {
      * Get aggregated metrics for multiple users in a single efficient query.
      * Returns ingresos (successful login count), pedidos (order count), and monto (total amount).
      * Uses parameterized queries to prevent SQL injection.
+     * 
+     * Note: log.id_usuario is stored as STRING, pedidos.usuario is stored as NUMBER.
      */
     getUsersMetrics = async (userIds: number[]): Promise<MySQLActions_CustomResponse> => {
         try {
@@ -705,21 +707,31 @@ export class mySQLActions {
                 return { success: true, data: {}, message: "" };
             }
 
+            // Convert userIds to strings for log table query (id_usuario is stored as string)
+            const userIdsAsStrings = userIds.map(id => id.toString());
+
             // Query 1: Count successful logins (ingresos) per user from log table
+            // Note: id_usuario is stored as VARCHAR/string in the log table
             const logMetrics = await mySQLClient("log")
                 .select("id_usuario")
                 .count("* as ingresos")
-                .whereIn("id_usuario", userIds)
+                .whereIn("id_usuario", userIdsAsStrings)
                 .andWhere("ingreso", "ok")
                 .groupBy("id_usuario");
 
             // Query 2: Count orders (pedidos) and sum amounts (monto) per user from pedidos table
+            // Note: usuario is stored as NUMBER in the pedidos table
             const pedidosMetrics = await mySQLClient("pedidos")
                 .select("usuario")
                 .count("* as pedidos")
                 .sum({ monto: "total" })
                 .whereIn("usuario", userIds)
                 .groupBy("usuario");
+
+            // DEV logging to help debug (non-production only)
+            if (NODE_ENV !== "production") {
+                console.log(`[getUsersMetrics] Requested: ${userIds.length} userIds, Log groups: ${logMetrics.length}, Pedidos groups: ${pedidosMetrics.length}`);
+            }
 
             // Build result object with zeros for users with no activity
             const result: Record<string, { ingresos: number; pedidos: number; monto: number }> = {};
