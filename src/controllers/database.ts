@@ -746,6 +746,88 @@ export const enableUser = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * POST /db/getUsersMetrics
+ * 
+ * Returns aggregated metrics (ingresos, pedidos, monto) for a batch of users.
+ * 
+ * Request body:
+ *   { "userIds": number[] }
+ * 
+ * Response:
+ *   { "success": true, "data": { "metrics": { "<userId>": { "ingresos": number, "pedidos": number, "monto": number } } }, "message": "" }
+ * 
+ * Definitions (matching dashboard report logic):
+ *   - ingresos: count of successful login records in "log" table (ingreso = 'ok')
+ *   - pedidos: count of orders in "pedidos" table
+ *   - monto: sum of "total" field from "pedidos" table
+ * 
+ * Validations:
+ *   - userIds must be a non-empty array (400 if missing/empty)
+ *   - Max 200 user IDs allowed (400 if exceeded)
+ *   - IDs are coerced to integers and deduplicated
+ * 
+ * Testing locally with curl:
+ *   curl -X POST http://localhost:3000/api/db/getUsersMetrics \
+ *     -H "Content-Type: application/json" \
+ *     -H "Authorization: Bearer <admin_token>" \
+ *     -d '{"userIds": [1, 2, 3]}'
+ */
+export const getUsersMetrics = async (req: Request, res: Response) => {
+    try {
+        // Admin-only endpoint
+        if (!req.decoded?.isAdmin) {
+            throw new CustomError("Permiso denegado", 401);
+        }
+
+        const { userIds } = req.body;
+
+        // Validate userIds is present and is an array
+        if (!userIds || !Array.isArray(userIds)) {
+            throw new CustomError("userIds debe ser un array", 400);
+        }
+
+        // Validate array is not empty
+        if (userIds.length === 0) {
+            throw new CustomError("userIds no puede estar vacío", 400);
+        }
+
+        // Max length protection
+        const MAX_USER_IDS = 200;
+        if (userIds.length > MAX_USER_IDS) {
+            throw new CustomError(`userIds excede el límite máximo de ${MAX_USER_IDS} elementos`, 400);
+        }
+
+        // Coerce to integers, filter valid numbers, and remove duplicates
+        const sanitizedUserIds = [...new Set(
+            userIds
+                .map((id: any) => parseInt(id, 10))
+                .filter((id: number) => !isNaN(id) && id > 0)
+        )];
+
+        if (sanitizedUserIds.length === 0) {
+            throw new CustomError("userIds no contiene IDs válidos", 400);
+        }
+
+        const response = await getDao().getUsersMetrics(sanitizedUserIds);
+
+        if (response.success) {
+            res.status(200).json({
+                success: true,
+                data: { metrics: response.data },
+                message: response.message
+            } as DatabaseControllers_CustomResponse);
+        } else {
+            res.status(500).json(response as DatabaseControllers_CustomResponse);
+        }
+    } catch (err) {
+        const message = err instanceof Error || err instanceof CustomError ? "ERROR: " + err.message : "ERROR: " + err;
+        const status = err instanceof CustomError ? err.status : 500;
+        console.error(`Error: ${message} -- Status(${status})`);
+        res.status(status).json({ success: false, data: null, message: message } as DatabaseControllers_CustomResponse);
+    }
+};
+
 export const usersLogs = async (req: Request, res: Response): Promise <Response<any, Record<string, any>> | void> => {
     try {
         const {userId, email} = req.decoded ? req.decoded : {userId: undefined, email: undefined};
