@@ -1,4 +1,5 @@
 import "dotenv/config";
+import type { Secret, SignOptions } from "jsonwebtoken";
 
 // Helper function to parse SSL configuration
 const parseSSLConfig = (sslConfigString: string | undefined) => {
@@ -71,8 +72,8 @@ export const DOCUMENTS_FIREBASE_ROUTE = process.env.DOCUMENTS_FIREBASE_ROUTE;
 
 export const NODE_ENV = process.env.NODE_ENV;
 
-export const JWT_SECRET = process.env.JWT_SECRET;
-export const JWT_EXPIRATION_TIME = process.env.JWT_EXPIRATION_TIME;
+export const JWT_SECRET: Secret | undefined = process.env.JWT_SECRET;
+export const JWT_EXPIRATION_TIME: SignOptions["expiresIn"] = process.env.JWT_EXPIRATION_TIME as SignOptions["expiresIn"];
 export const SESSION_IDLE_TIMEOUT_DAYS = process.env.SESSION_IDLE_TIMEOUT_DAYS ? parseFloat(process.env.SESSION_IDLE_TIMEOUT_DAYS) : 7;
 
 export const IMAGES_WIDTH = process.env.IMAGES_WIDTH;
