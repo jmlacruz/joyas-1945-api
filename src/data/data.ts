@@ -6,7 +6,7 @@ export const tablesForDeleteByFrontEnd = ["usuario"];
 
 export const tablesForReadByAdmins = ["config", "pedidos", "detalle", "log", "leads", "log_envio", "habdeslog", "carts"];             /*Operaciones que solo pueden hacer los admins*/
 export const tablesForWriteByAdmins = ["config", "grupo", "marca", "novedad", "pano", "multiplicador", "metodo_envio", "pedidos", "detalle", "vendedor", "log", "reviews", "leads", "panoxproducto", "producto", "faqs", "faqs_answer", "system_config"];
-export const tablesForDeleteByAdmins = ["grupo", "marca", "novedad", "pano", "metodo_envio", "pedidos", "detalle", "vendedor", "log", "reviews", "leads", "panoxproducto", "producto", "faqs", "faqs_answer"];
+export const tablesForDeleteByAdmins = ["grupo", "marca", "novedad", "pano", "metodo_envio", "pedidos", "detalle", "vendedor", "log", "reviews", "leads", "panoxproducto", "producto", "faqs", "faqs_answer", "carts"];
 
 export const tablesForReadWithOutToken = ["nota", "faqs", "faqs_answer", "novedad", "producto", "reviews"];
 
