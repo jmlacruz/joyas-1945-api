@@ -3,7 +3,7 @@ import { MailsControllersCustomResponse } from "../types/types";
 
 export const sendMails = async (data: { emailsArr: { email: string }[], message: string, subject?: string | null }) => {
     try {
-        if (true) {                                                                                     /* Solo se envian mails en produccion*/
+        if (NODE_ENV) {                                                                                     /* Solo se envian mails en produccion*/
             if (!BREVO_API_KEY) throw new Error("No se pudo enviar el correo, variables de entorno no encontradas.");
             const responseJSON = await fetch("https://api.brevo.com/v3/smtp/email", {
                 method: "POST",
@@ -12,7 +12,7 @@ export const sendMails = async (data: { emailsArr: { email: string }[], message:
                     "api-key": BREVO_API_KEY,
                 },
                 body: JSON.stringify({
-                    sender: { name: "Joyas 1945", email: "info@joyas1945.com" },
+                    sender: { name: "Joyas 1945", email: "joyas1945@gmail.com" },
                     to: data.emailsArr,                                                                     /* Array de mails en formato [{ email: "email1" }, {email: "email2"}]*/
                     subject: data.subject || "Nueva notificación de Joyas 1945",
                     htmlContent: data.message
