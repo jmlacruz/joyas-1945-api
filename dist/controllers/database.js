@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usersLogs = exports.enableUser = exports.getCartData = exports.saveCartData = exports.createUser = exports.deleteRows = exports.deleteRowByID = exports.insertRow = exports.updateProductsOrder = exports.updateTable = exports.getProductsByIDs = exports.getProductByID = exports.getTable = exports.getProductsFilteredRowsQuantity = exports.getProductsFiltered = void 0;
+exports.usersLogs = exports.getUsersMetrics = exports.enableUser = exports.getCartData = exports.saveCartData = exports.createUser = exports.deleteRows = exports.deleteRowByID = exports.insertRow = exports.updateProductsOrder = exports.updateTable = exports.getProductsByIDs = exports.getProductByID = exports.getTable = exports.getProductsFilteredRowsQuantity = exports.getProductsFiltered = void 0;
 const fs_1 = __importDefault(require("fs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const path_1 = __importDefault(require("path"));
@@ -762,6 +762,81 @@ const enableUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.enableUser = enableUser;
+/**
+ * POST /db/getUsersMetrics
+ *
+ * Returns aggregated metrics (ingresos, pedidos, monto) for a batch of users.
+ *
+ * Request body:
+ *   { "userIds": number[] }
+ *
+ * Response:
+ *   { "success": true, "data": { "metrics": { "<userId>": { "ingresos": number, "pedidos": number, "monto": number } } }, "message": "" }
+ *
+ * Definitions (matching dashboard report logic):
+ *   - ingresos: count of successful login records in "log" table (ingreso = 'ok')
+ *   - pedidos: count of orders in "pedidos" table
+ *   - monto: sum of "total" field from "pedidos" table
+ *
+ * Validations:
+ *   - userIds must be a non-empty array (400 if missing/empty)
+ *   - Max 200 user IDs allowed (400 if exceeded)
+ *   - IDs are coerced to integers and deduplicated
+ *
+ * Testing locally with curl:
+ *   curl -X POST http://localhost:3000/api/db/getUsersMetrics \
+ *     -H "Content-Type: application/json" \
+ *     -H "Authorization: Bearer <admin_token>" \
+ *     -d '{"userIds": [1, 2, 3]}'
+ */
+const getUsersMetrics = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _l;
+    try {
+        // Admin-only endpoint
+        if (!((_l = req.decoded) === null || _l === void 0 ? void 0 : _l.isAdmin)) {
+            throw new customError_1.CustomError("Permiso denegado", 401);
+        }
+        const { userIds } = req.body;
+        // Validate userIds is present and is an array
+        if (!userIds || !Array.isArray(userIds)) {
+            throw new customError_1.CustomError("userIds debe ser un array", 400);
+        }
+        // Validate array is not empty
+        if (userIds.length === 0) {
+            throw new customError_1.CustomError("userIds no puede estar vacío", 400);
+        }
+        // Max length protection
+        const MAX_USER_IDS = 200;
+        if (userIds.length > MAX_USER_IDS) {
+            throw new customError_1.CustomError(`userIds excede el límite máximo de ${MAX_USER_IDS} elementos`, 400);
+        }
+        // Coerce to integers, filter valid numbers, and remove duplicates
+        const sanitizedUserIds = [...new Set(userIds
+                .map((id) => parseInt(id, 10))
+                .filter((id) => !isNaN(id) && id > 0))];
+        if (sanitizedUserIds.length === 0) {
+            throw new customError_1.CustomError("userIds no contiene IDs válidos", 400);
+        }
+        const response = yield (0, dao_1.getDao)().getUsersMetrics(sanitizedUserIds);
+        if (response.success) {
+            res.status(200).json({
+                success: true,
+                data: { metrics: response.data },
+                message: response.message
+            });
+        }
+        else {
+            res.status(500).json(response);
+        }
+    }
+    catch (err) {
+        const message = err instanceof Error || err instanceof customError_1.CustomError ? "ERROR: " + err.message : "ERROR: " + err;
+        const status = err instanceof customError_1.CustomError ? err.status : 500;
+        console.error(`Error: ${message} -- Status(${status})`);
+        res.status(status).json({ success: false, data: null, message: message });
+    }
+});
+exports.getUsersMetrics = getUsersMetrics;
 const usersLogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId, email } = req.decoded ? req.decoded : { userId: undefined, email: undefined };

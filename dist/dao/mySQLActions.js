@@ -644,6 +644,72 @@ class mySQLActions {
                 return { success: false, data: null, message: message };
             }
         });
+        /**
+         * Get aggregated metrics for multiple users in a single efficient query.
+         * Returns ingresos (successful login count), pedidos (order count), and monto (total amount).
+         * Uses parameterized queries to prevent SQL injection.
+         *
+         * Note: log.id_usuario is stored as STRING, pedidos.usuario is stored as NUMBER.
+         */
+        this.getUsersMetrics = (userIds) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (!userIds.length) {
+                    return { success: true, data: {}, message: "" };
+                }
+                // Convert userIds to strings for log table query (id_usuario is stored as string)
+                const userIdsAsStrings = userIds.map(id => id.toString());
+                // Query 1: Count successful logins (ingresos) per user from log table
+                // Note: id_usuario is stored as VARCHAR/string in the log table
+                const logMetrics = yield mySQLClient("log")
+                    .select("id_usuario")
+                    .count("* as ingresos")
+                    .whereIn("id_usuario", userIdsAsStrings)
+                    .andWhere("ingreso", "ok")
+                    .groupBy("id_usuario");
+                // Query 2: Count orders (pedidos) and sum amounts (monto) per user from pedidos table
+                // Note: usuario is stored as NUMBER in the pedidos table
+                const pedidosMetrics = yield mySQLClient("pedidos")
+                    .select("usuario")
+                    .count("* as pedidos")
+                    .sum({ monto: "total" })
+                    .whereIn("usuario", userIds)
+                    .groupBy("usuario");
+                // DEV logging to help debug (non-production only)
+                if (environment_1.NODE_ENV !== "production") {
+                    console.log(`[getUsersMetrics] Requested: ${userIds.length} userIds, Log groups: ${logMetrics.length}, Pedidos groups: ${pedidosMetrics.length}`);
+                }
+                // Build result object with zeros for users with no activity
+                const result = {};
+                // Initialize all users with zeros
+                userIds.forEach((userId) => {
+                    result[userId.toString()] = { ingresos: 0, pedidos: 0, monto: 0 };
+                });
+                // Populate ingresos from log metrics
+                logMetrics.forEach((row) => {
+                    var _a;
+                    const userId = (_a = row.id_usuario) === null || _a === void 0 ? void 0 : _a.toString();
+                    if (userId && result[userId]) {
+                        result[userId].ingresos = Number(row.ingresos) || 0;
+                    }
+                });
+                // Populate pedidos and monto from pedidos metrics
+                pedidosMetrics.forEach((row) => {
+                    var _a;
+                    const userId = (_a = row.usuario) === null || _a === void 0 ? void 0 : _a.toString();
+                    if (userId && result[userId]) {
+                        result[userId].pedidos = Number(row.pedidos) || 0;
+                        result[userId].monto = Number(row.monto) || 0;
+                    }
+                });
+                return { success: true, data: result, message: "" };
+            }
+            catch (err) {
+                const message = err instanceof Error
+                    ? "Error al obtener métricas de usuarios: " + err.message
+                    : "ERROR: " + err;
+                return { success: false, data: null, message: message };
+            }
+        });
     }
 }
 exports.mySQLActions = mySQLActions;

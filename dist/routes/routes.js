@@ -55,6 +55,7 @@ routes.get("/usersNotifications/enabledUser", allowAdmin_1.allowAdmin, verifyTok
 routes.get("/allowAccessToWeb", verifyTokenForEmailLinkAction_1.verifyTokenForEmailLinkAction, allowAccessToWeb_1.allowAccessToWeb);
 routes.post("/db/usersLogs", verifyToken_1.verifyToken, database_1.usersLogs);
 routes.post("/db/loginError", database_1.usersLogs);
+routes.post("/db/getUsersMetrics", verifyToken_1.verifyToken, database_1.getUsersMetrics);
 routes.get("/getReviews", allowAdmin_1.allowAdmin, googleReviews_1.updateGoogleReviews);
 routes.get("/check", checkAPI_1.checkAPI);
 exports.default = routes;

@@ -6,7 +6,7 @@ exports.tablesForWriteByFrontEnd = ["usuario"];
 exports.tablesForDeleteByFrontEnd = ["usuario"];
 exports.tablesForReadByAdmins = ["config", "pedidos", "detalle", "log", "leads", "log_envio", "habdeslog", "carts"]; /*Operaciones que solo pueden hacer los admins*/
 exports.tablesForWriteByAdmins = ["config", "grupo", "marca", "novedad", "pano", "multiplicador", "metodo_envio", "pedidos", "detalle", "vendedor", "log", "reviews", "leads", "panoxproducto", "producto", "faqs", "faqs_answer", "system_config"];
-exports.tablesForDeleteByAdmins = ["grupo", "marca", "novedad", "pano", "metodo_envio", "pedidos", "detalle", "vendedor", "log", "reviews", "leads", "panoxproducto", "producto", "faqs", "faqs_answer"];
+exports.tablesForDeleteByAdmins = ["grupo", "marca", "novedad", "pano", "metodo_envio", "pedidos", "detalle", "vendedor", "log", "reviews", "leads", "panoxproducto", "producto", "faqs", "faqs_answer", "carts"];
 exports.tablesForReadWithOutToken = ["nota", "faqs", "faqs_answer", "novedad", "producto", "reviews"];
 exports.userDefaultValues = {
     nombre: "",
