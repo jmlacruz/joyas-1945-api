@@ -1,6 +1,6 @@
 import sizeOf from "image-size";
 import sharp from "sharp";
-import { IMAGES_FIREBASE_ROUTE, IMAGES_ROUTE, THUMBNAILS_FIREBASE_ROUTE, THUMBNAILS_ROUTE } from "../environment";
+import { IMAGES_FIREBASE_ROUTE, THUMBNAILS_FIREBASE_ROUTE } from "../environment";
 import { FutureDateForCronJob } from "../types/misc";
 import { BuyerTypeOptions } from "../types/orders";
 import { FunctionsCustomResponse, IVACodes, MySQLActions_CustomResponse } from "../types/types";
@@ -131,17 +131,10 @@ export const getCurrentDateTime = () => {                                       
 
 export const getImageUrls = (imageInDBName: string) => {
     if (!imageInDBName) return {imageUrl: "", thumbnailUrl: ""};
-    if (imageInDBName.includes("firebase/")) {
-        const imageNameParsed = imageInDBName.split("firebase/")[1];
-        const encodedImageName = encodeURIComponent(imageNameParsed);
-        const imageUrl = IMAGES_FIREBASE_ROUTE?.replace("_", encodedImageName);
-        const thumbnailUrl = THUMBNAILS_FIREBASE_ROUTE?.replace("_", encodedImageName);
-        return {imageUrl, thumbnailUrl};
-    } else {
-        const imageUrl = `${IMAGES_FIREBASE_ROUTE}%2F${imageInDBName}?alt=media`;
-        const thumbnailUrl = `${THUMBNAILS_FIREBASE_ROUTE}%2F${imageInDBName}?alt=media`;
-        return {imageUrl, thumbnailUrl};
-    }
+    const imageUrl = IMAGES_FIREBASE_ROUTE?.replace("_", imageInDBName);
+    const thumbnailUrl = THUMBNAILS_FIREBASE_ROUTE?.replace("_", imageInDBName);
+    console.log(imageUrl, thumbnailUrl);
+    return {imageUrl, thumbnailUrl};
 };
 
 export const printInitialActionsResponse = (response: MySQLActions_CustomResponse) => {

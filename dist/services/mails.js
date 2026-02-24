@@ -13,7 +13,7 @@ exports.sendMails = void 0;
 const environment_1 = require("../environment");
 const sendMails = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (true) { /* Solo se envian mails en produccion*/
+        if (environment_1.NODE_ENV) { /* Solo se envian mails en produccion*/
             if (!environment_1.BREVO_API_KEY)
                 throw new Error("No se pudo enviar el correo, variables de entorno no encontradas.");
             const responseJSON = yield fetch("https://api.brevo.com/v3/smtp/email", {

@@ -12,7 +12,7 @@ export const sendMails = async (data: { emailsArr: { email: string }[], message:
                     "api-key": BREVO_API_KEY,
                 },
                 body: JSON.stringify({
-                    sender: { name: "Joyas 1945", email: "joyas1945@gmail.com" },
+                    sender: { name: "Joyas 1945", email: "info@joyas1945.com" },
                     to: data.emailsArr,                                                                     /* Array de mails en formato [{ email: "email1" }, {email: "email2"}]*/
                     subject: data.subject || "Nueva notificación de Joyas 1945",
                     htmlContent: data.message
