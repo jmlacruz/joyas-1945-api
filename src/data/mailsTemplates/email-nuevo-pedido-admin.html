@@ -1,6 +1,7 @@
 <html>
 
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<style>
 			table.productsDetails * {
 				text-align: center;
@@ -14,27 +15,27 @@
 		<table width="100%" border="0" cellpadding="0" cellspacing="0"
 			style="background-color: #FFFFFF; font-family: Arial;">
 			<tr>
-				<td>
-					<table width="800" border="0" cellpadding="0" cellspacing="0" align="center" style="min-width: 800px;">
+				<td align="center" style="padding: 0 12px;">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center"
+						style="width: 100%; max-width: 800px;">
 						<tr>
-							<td width="800" height="30" style="min-width: 800px;"></td>
+							<td height="30"></td>
 						</tr>
 						<tr>
-							<td width="800" height="75" style="min-width: 800px;"><img
+							<td height="75"><img
 									src="https://joyas1945.com/img/logo/logo_black.png" width="134" height="55"
 									alt="Joyas 1945"
 									style="margin: 0; border: 0; padding: 0; display: block;" />
 							</td>
 						</tr>
 						<tr>
-							<td width="800" height="12" style="min-width: 800px; background-color: #FFFFFF;">
-								<table width="800" border="0" cellpadding="0" cellspacing="0" style="min-width: 800px;">
+							<td height="12" style="background-color: #FFFFFF;">
+								<table width="100%" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
 									<tr>
-										<td colspan="3" width="800" height="41" style="min-width: 800px;"></td>
+										<td height="41"></td>
 									</tr>
 									<tr>
-										<td width="40" style="min-width: 40px;"></td>
-										<td width="520" style="min-width: 520px; font-size: 14px; color: #777;">
+										<td style="padding: 0 16px; font-size: 14px; color: #777;">
 											<p
 												style="text-align: center; font-size: 14px; font-weight: bold; color: #3DB0F5;">
 												Nuevo Pedido</p>
@@ -63,34 +64,35 @@
 
 											<p style="font-size: 14px;">Detalle del pedido:</p>
 
-											<table width="100%" border="1" cellpadding="5" cellspacing="0" class="productsDetails"
-												style="border-collapse: collapse; font-size: 14px; color: #333; text-align: left;">
-												<thead style="background-color: #F3F3F3;">
-													<tr>
-														<th style="padding: 5px;">Producto</th>
-														<th style="padding: 5px;">Foto</th>
-														<th style="padding: 5px;">Observaciones</th>
-														<th style="padding: 5px;">Precio</th>
-														<th style="padding: 5px;">Cantidad</th>
-														<th style="padding: 5px;">Total</th>
-													</tr>
-												</thead>
-												<tbody>
-													#tableData#
-												</tbody>
-											</table>
+											<div style="width: 100%; overflow-x: auto;">
+												<table width="100%" border="1" cellpadding="5" cellspacing="0" class="productsDetails"
+													style="min-width: 560px; border-collapse: collapse; font-size: 14px; color: #333; text-align: left; table-layout: fixed;">
+													<thead style="background-color: #F3F3F3;">
+														<tr>
+															<th style="padding: 5px; word-break: break-word;">Producto</th>
+															<th style="padding: 5px; word-break: break-word;">Foto</th>
+															<th style="padding: 5px; word-break: break-word;">Observaciones</th>
+															<th style="padding: 5px; word-break: break-word;">Precio</th>
+															<th style="padding: 5px; word-break: break-word;">Cantidad</th>
+															<th style="padding: 5px; word-break: break-word;">Total</th>
+														</tr>
+													</thead>
+													<tbody>
+														#tableData#
+													</tbody>
+												</table>
+											</div>
 
 										</td>
-										<td width="40" style="min-width: 40px;"></td>
 									</tr>
 									<tr>
-										<td colspan="3" width="800" height="41" style="min-width: 800px;"></td>
+										<td height="41"></td>
 									</tr>
 								</table>
 							</td>
 						</tr>
 						<tr>
-							<td width="800" height="21" style="min-width: 800px;"></td>
+							<td height="21"></td>
 						</tr>
 					</table>
 				</td>
