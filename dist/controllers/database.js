@@ -40,10 +40,11 @@ const getProductsFiltered = (req, res) => __awaiter(void 0, void 0, void 0, func
         const categoriesArrOBJ = (0, utils_1.isValidJSON)(categoriesArrJSON) ? JSON.parse(categoriesArrJSON) : [];
         const priceRangeArrJSON = req.query.priceRange;
         const priceRangeArrOBJ = (0, utils_1.isValidJSON)(priceRangeArrJSON) ? JSON.parse(priceRangeArrJSON) : [];
-        // const globalMultiplier = await getGlobalMultiplier();
+        const globalMultiplier = yield (0, database_1.getGlobalMultiplier)();
         if ((0, validations_1.validatePriceRange)(priceRangeArrOBJ)) {
-            // priceRangeArrOBJ[0] = priceRangeArrOBJ[0] / globalMultiplier;
-            // priceRangeArrOBJ[1] = priceRangeArrOBJ[1] / globalMultiplier;
+            // Convertir ARS (del front) a USD (de la tabla) para comparación correcta
+            priceRangeArrOBJ[0] = priceRangeArrOBJ[0] / globalMultiplier;
+            priceRangeArrOBJ[1] = priceRangeArrOBJ[1] / globalMultiplier;
         }
         else {
             priceRangeArrOBJ.length = 0;

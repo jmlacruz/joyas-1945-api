@@ -29,11 +29,12 @@ export const getProductsFiltered = async (req: Request, res: Response) => {
         const priceRangeArrJSON = req.query.priceRange as string;
         const priceRangeArrOBJ = isValidJSON(priceRangeArrJSON) ? JSON.parse(priceRangeArrJSON) : [];
                                                         
-        // const globalMultiplier = await getGlobalMultiplier();
+        const globalMultiplier = await getGlobalMultiplier();
 
         if (validatePriceRange(priceRangeArrOBJ)) {
-            // priceRangeArrOBJ[0] = priceRangeArrOBJ[0] / globalMultiplier;
-            // priceRangeArrOBJ[1] = priceRangeArrOBJ[1] / globalMultiplier;
+            // Convertir ARS (del front) a USD (de la tabla) para comparación correcta
+            priceRangeArrOBJ[0] = priceRangeArrOBJ[0] / globalMultiplier;
+            priceRangeArrOBJ[1] = priceRangeArrOBJ[1] / globalMultiplier;
         } else {
             priceRangeArrOBJ.length = 0;      
         }
