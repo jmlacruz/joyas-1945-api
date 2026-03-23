@@ -59,12 +59,12 @@ export const newOrder = async (req: Request, res: Response) => {
 
         const productsDataForTableHTML = productsDataForTable.map((productData) =>
             `<tr>
-                <td>${productData.nombre}</td>
-                <td><img src=${getImageUrls(productData.foto1).thumbnailUrl} width=50 height=50 /></td>
-                <td>${productData.observaciones}</td>
-                <td>$${typeof productData.precio === "number" ? productData.precio.toFixed(2) : ""}</td>
-                <td>${productData.cantidad}</td>
-                <td>$${productData.total}</td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Producto: </span>${productData.nombre}</td>
+                <td class="productImageCell"><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Foto: </span><img src=${getImageUrls(productData.foto1).thumbnailUrl} width=50 height=50 /></td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Observaciones: </span>${productData.observaciones}</td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Precio: </span>$${typeof productData.precio === "number" ? productData.precio.toFixed(2) : ""}</td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Cantidad: </span>${productData.cantidad}</td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Total: </span>$${productData.total}</td>
             </tr>`
         ).join("");               
 
