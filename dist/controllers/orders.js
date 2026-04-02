@@ -69,12 +69,12 @@ const newOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return Object.assign(Object.assign({}, product), { cantidad: detail === null || detail === void 0 ? void 0 : detail.cantidad, observaciones: detail === null || detail === void 0 ? void 0 : detail.observaciones, total: detail === null || detail === void 0 ? void 0 : detail.total, precio: detail ? detail.precio * detail.precioCalculado : "" });
         });
         const productsDataForTableHTML = productsDataForTable.map((productData) => `<tr>
-                <td>${productData.nombre}</td>
-                <td><img src=${(0, utils_1.getImageUrls)(productData.foto1).thumbnailUrl} width=50 height=50 /></td>
-                <td>${productData.observaciones}</td>
-                <td>$${typeof productData.precio === "number" ? productData.precio.toFixed(2) : ""}</td>
-                <td>${productData.cantidad}</td>
-                <td>$${productData.total}</td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Producto: </span>${productData.nombre}</td>
+                <td class="productImageCell"><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Foto: </span><img src=${(0, utils_1.getImageUrls)(productData.foto1).thumbnailUrl} width=50 height=50 /></td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Observaciones: </span>${productData.observaciones}</td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Precio: </span>$${typeof productData.precio === "number" ? productData.precio.toFixed(2) : ""}</td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Cantidad: </span>${productData.cantidad}</td>
+                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Total: </span>$${productData.total}</td>
             </tr>`).join("");
         const adminEmailHTMLTemplate = path_1.default.resolve(__dirname, "../data/mailsTemplates/email-nuevo-pedido-admin.html");
         const adminEmailHTMLContent = fs_1.default.readFileSync(adminEmailHTMLTemplate, "utf8");

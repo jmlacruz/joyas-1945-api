@@ -7,6 +7,72 @@
 				text-align: center;
 			}
 
+			.mobileLabel {
+				display: none;
+				font-weight: bold;
+				color: #555555;
+			}
+
+			@media only screen and (max-width: 600px) {
+				.emailContent {
+					max-width: 100% !important;
+				}
+
+				.emailBodyCell {
+					padding: 0 8px !important;
+				}
+
+				.productsTableWrapper {
+					overflow: visible !important;
+				}
+
+				table.productsDetails,
+				table.productsDetails tbody,
+				table.productsDetails tr,
+				table.productsDetails td {
+					display: block !important;
+					width: 100% !important;
+					box-sizing: border-box;
+				}
+
+				table.productsDetails {
+					min-width: 0 !important;
+					border: 0 !important;
+				}
+
+				table.productsDetails thead {
+					display: none !important;
+				}
+
+				table.productsDetails tr {
+					margin-bottom: 16px !important;
+					border: 1px solid #DADADA !important;
+				}
+
+				table.productsDetails td {
+					border: 0 !important;
+					border-bottom: 1px solid #EAEAEA !important;
+					padding: 10px !important;
+					text-align: left !important;
+				}
+
+				table.productsDetails td:last-child {
+					border-bottom: 0 !important;
+				}
+
+				table.productsDetails td.productImageCell {
+					text-align: center !important;
+				}
+
+				table.productsDetails td.productImageCell img {
+					width: 64px !important;
+					height: auto !important;
+				}
+
+				.mobileLabel {
+					display: inline !important;
+				}
+			}
 		</style>
 	</head>
 
@@ -17,7 +83,7 @@
 			<tr>
 				<td align="center" style="padding: 0 12px;">
 					<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center"
-						style="width: 100%; max-width: 800px;">
+						class="emailContent" style="width: 100%; max-width: 800px;">
 						<tr>
 							<td height="30"></td>
 						</tr>
@@ -35,7 +101,7 @@
 										<td height="41"></td>
 									</tr>
 									<tr>
-										<td style="padding: 0 16px; font-size: 14px; color: #777;">
+										<td class="emailBodyCell" style="padding: 0 16px; font-size: 14px; color: #777;">
 											<p
 												style="text-align: center; font-size: 14px; font-weight: bold; color: #3DB0F5;">
 												Nuevo Pedido</p>
@@ -64,7 +130,7 @@
 
 											<p style="font-size: 14px;">Detalle del pedido:</p>
 
-											<div style="width: 100%; overflow-x: auto;">
+											<div class="productsTableWrapper" style="width: 100%; overflow-x: auto;">
 												<table width="100%" border="1" cellpadding="5" cellspacing="0" class="productsDetails"
 													style="min-width: 560px; border-collapse: collapse; font-size: 14px; color: #333; text-align: left; table-layout: fixed;">
 													<thead style="background-color: #F3F3F3;">
