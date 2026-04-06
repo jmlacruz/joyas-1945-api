@@ -20,6 +20,7 @@ export const sendMails = async (data: { emailsArr: { email: string }[], message:
             });
             const responseOBJ = await responseJSON.json();
             if (responseOBJ.messageId) {
+                
                 console.info(`Correo/s enviado/s con exito a ${JSON.stringify(data.emailsArr)}: (ID de envío: ${responseOBJ.messageId})`);
                 return ({ success: true, data: responseOBJ.messageId, message: `Emails enviados correctamente: ID  de envío ${responseOBJ.messageId}` } as MailsControllersCustomResponse);
             } else {
