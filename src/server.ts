@@ -17,7 +17,6 @@ const PORT = process.env.PORT || 8080;
 
 (async () => {
     
-    
     const response = await getDao().connect();
     if (response.success) {
         const response1 = await getDao().createUsersLogTableIfNotExits();
