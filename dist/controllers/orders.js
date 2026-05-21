@@ -15,16 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.newOrder = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const orderTemplate_1 = require("../data/orderTemplate");
 const mails_1 = require("../services/mails");
 const customError_1 = require("../types/customError");
 const database_1 = require("../utils/database");
 const dao_1 = require("../dao");
 const utils_1 = require("../utils/utils");
 const newOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     try {
-        const { orderHTML, orderCSS, orderData } = req.body;
+        const { orderData } = req.body;
         const { email: userEmail } = req.decoded;
         if (!userEmail)
             throw new customError_1.CustomError("No se pudo procesar la orden. Datos de token faltantes (email)", 400);
@@ -32,13 +31,6 @@ const newOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!orderAddedResponse.success)
             throw new customError_1.CustomError(`Ocurrió un error al procesaer la orden: ${orderAddedResponse.message}`, 500);
         const orderAddedID = orderAddedResponse.data[0];
-        const response = yield (0, mails_1.sendMails)({ emailsArr: [{ email: userEmail }], message: (0, orderTemplate_1.getOrdertemplate)({ orderHTML, orderCSS }) }); //Envio de mail con los detalles de la nueva orden al usuario
-        if (response.success) {
-            yield (0, dao_1.getDao)().inserNotificationLog({ recipients: userEmail, notificationType: "Nuevo pedido (Detalle para usuario)" });
-        }
-        else {
-            console.error(response.message);
-        }
         const userFields = ["nombre", "apellido", "provincia", "telefono", "celular", "rubro"];
         const response1 = yield (0, dao_1.getDao)().getTable({ tableName: "usuario", conditions: [{ field: "email", value: userEmail }], fields: userFields });
         if (!response1.success || !response1.data || !response1.data.length)
@@ -68,14 +60,23 @@ const newOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const detail = detailsDataFromDB.find((detail) => detail.id_producto === product.id);
             return Object.assign(Object.assign({}, product), { cantidad: detail === null || detail === void 0 ? void 0 : detail.cantidad, observaciones: detail === null || detail === void 0 ? void 0 : detail.observaciones, total: detail === null || detail === void 0 ? void 0 : detail.total, precio: detail ? detail.precio * detail.precioCalculado : "" });
         });
-        const productsDataForTableHTML = productsDataForTable.map((productData) => `<tr>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Producto: </span>${productData.nombre}</td>
-                <td class="productImageCell"><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Foto: </span><img src=${(0, utils_1.getImageUrls)(productData.foto1).thumbnailUrl} width=50 height=50 /></td>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Observaciones: </span>${productData.observaciones}</td>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Precio: </span>$${typeof productData.precio === "number" ? productData.precio.toFixed(2) : ""}</td>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Cantidad: </span>${productData.cantidad}</td>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Total: </span>$${productData.total}</td>
-            </tr>`).join("");
+        const productCardRow = (label, value) => `<tr>
+                <td width="110" valign="top" style="padding: 10px; font-size: 13px; font-weight: bold; color: #555555; background-color: #F3F3F3; border-bottom: 1px solid #EAEAEA; line-height: 18px;">${label}</td>
+                <td valign="top" style="padding: 10px; font-size: 14px; color: #333333; border-bottom: 1px solid #EAEAEA; line-height: 18px; word-break: break-word;">${value}</td>
+            </tr>`;
+        const productsDataForTableHTML = productsDataForTable.map((productData) => {
+            var _a, _b;
+            const imageUrl = (0, utils_1.getImageUrls)(productData.foto1).thumbnailUrl;
+            const precio = typeof productData.precio === "number" ? productData.precio.toFixed(2) : "";
+            return `<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; margin-bottom: 16px; border: 1px solid #DADADA; border-collapse: collapse;">
+                ${productCardRow("Producto", productData.nombre || "")}
+                ${productCardRow("Foto", `<img src="${imageUrl}" width="50" height="50" alt="" style="display: block; border: 0; max-width: 50px; height: auto;" />`)}
+                ${productCardRow("Observaciones", productData.observaciones || "")}
+                ${productCardRow("Precio", `$${precio}`)}
+                ${productCardRow("Cantidad", String((_a = productData.cantidad) !== null && _a !== void 0 ? _a : ""))}
+                ${productCardRow("Total", `$${(_b = productData.total) !== null && _b !== void 0 ? _b : ""}`)}
+            </table>`;
+        }).join("");
         const adminEmailHTMLTemplate = path_1.default.resolve(__dirname, "../data/mailsTemplates/email-nuevo-pedido-admin.html");
         const adminEmailHTMLContent = fs_1.default.readFileSync(adminEmailHTMLTemplate, "utf8");
         const adminEmailHTMLContentCompleted = adminEmailHTMLContent
@@ -91,6 +92,23 @@ const newOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             .replace("#metodo_envio#", ((_a = shippingMethodsDataFromDB.find((methodData) => methodData.id === orderDataFromDB.id_metodo_envio)) === null || _a === void 0 ? void 0 : _a.nombre) || "")
             .replace("#observaciones#", orderDataFromDB.observaciones || "")
             .replace("#tableData#", productsDataForTableHTML || "");
+        const userEmailHTMLTemplate = path_1.default.resolve(__dirname, "../data/mailsTemplates/email-nuevo-pedido-user.html");
+        const userEmailHTMLContent = fs_1.default.readFileSync(userEmailHTMLTemplate, "utf8");
+        const userEmailHTMLContentCompleted = userEmailHTMLContent
+            .replace("#nombre#", userData.nombre || "")
+            .replace("#apellido#", userData.apellido || "")
+            .replace("#fecha#", (0, utils_1.getCurrentDateTime)() || "")
+            .replace("#total#", orderDataFromDB.total.toString() || "")
+            .replace("#metodo_envio#", ((_b = shippingMethodsDataFromDB.find((methodData) => methodData.id === orderDataFromDB.id_metodo_envio)) === null || _b === void 0 ? void 0 : _b.nombre) || "")
+            .replace("#observaciones#", orderDataFromDB.observaciones || "")
+            .replace("#tableData#", productsDataForTableHTML || "");
+        const response = yield (0, mails_1.sendMails)({ emailsArr: [{ email: userEmail }], message: userEmailHTMLContentCompleted }); //Envio de mail con los detalles de la nueva orden al usuario
+        if (response.success) {
+            yield (0, dao_1.getDao)().inserNotificationLog({ recipients: userEmail, notificationType: "Nuevo pedido (Detalle para usuario)" });
+        }
+        else {
+            console.error(response.message);
+        }
         const response6 = yield (0, dao_1.getDao)().getTable({ tableName: "config", conditions: [{ field: "seccion", value: "pedidos" }] });
         const newOrderNotificationData = response6.data;
         const newOrderNotificationSubject = newOrderNotificationData ? newOrderNotificationData[0].asunto : null;

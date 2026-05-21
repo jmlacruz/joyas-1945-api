@@ -1,7 +1,6 @@
 import path from "path";
 import fs from "fs";
 import { Response,  Request } from "express";
-import { getOrdertemplate } from "../data/orderTemplate";
 import { sendMails } from "../services/mails";
 import { CustomError } from "../types/customError";
 import { Config, DatabaseControllers_CustomResponse, Detalle, MailsControllersCustomResponse, Metodo_envio, Pedidos, Producto, Usuario } from "../types/types";
@@ -12,7 +11,7 @@ import { getCurrentDateTime, getImageUrls } from "../utils/utils";
 
 export const newOrder = async (req: Request, res: Response) => {                                                                   
     try {                        
-        const { orderHTML, orderCSS, orderData }: {orderHTML: string, orderCSS: string, orderData: OrderData} = req.body;
+        const { orderData }: {orderData: OrderData} = req.body;
         const {email: userEmail} = req.decoded;
         if (!userEmail) throw new CustomError("No se pudo procesar la orden. Datos de token faltantes (email)", 400);
 
@@ -20,13 +19,6 @@ export const newOrder = async (req: Request, res: Response) => {
         if (!orderAddedResponse.success) throw new CustomError(`Ocurrió un error al procesaer la orden: ${orderAddedResponse.message}`, 500);
         const orderAddedID = orderAddedResponse.data[0];
 
-        const response = await sendMails({emailsArr: [{email: userEmail}], message: getOrdertemplate({orderHTML, orderCSS}) });     //Envio de mail con los detalles de la nueva orden al usuario
-        if (response.success) {
-            await getDao().inserNotificationLog({recipients: userEmail, notificationType: "Nuevo pedido (Detalle para usuario)"});	
-        } else {
-            console.error(response.message);
-        }
-         
         const userFields: (keyof Usuario)[] = ["nombre", "apellido", "provincia", "telefono", "celular", "rubro"];
         const response1 = await getDao().getTable({tableName: "usuario", conditions: [{field: "email", value: userEmail}], fields: userFields});
         if (!response1.success || !response1.data || !response1.data.length) throw new CustomError(response1.message, 500);
@@ -57,16 +49,24 @@ export const newOrder = async (req: Request, res: Response) => {
             return {...product, cantidad: detail?.cantidad, observaciones: detail?.observaciones, total: detail?.total, precio: detail ? detail.precio * detail.precioCalculado : ""};
         });
 
-        const productsDataForTableHTML = productsDataForTable.map((productData) =>
+        const productCardRow = (label: string, value: string) =>
             `<tr>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Producto: </span>${productData.nombre}</td>
-                <td class="productImageCell"><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Foto: </span><img src=${getImageUrls(productData.foto1).thumbnailUrl} width=50 height=50 /></td>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Observaciones: </span>${productData.observaciones}</td>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Precio: </span>$${typeof productData.precio === "number" ? productData.precio.toFixed(2) : ""}</td>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Cantidad: </span>${productData.cantidad}</td>
-                <td><span class="mobileLabel" style="display: none; font-weight: bold; color: #555555;">Total: </span>$${productData.total}</td>
-            </tr>`
-        ).join("");               
+                <td width="110" valign="top" style="padding: 10px; font-size: 13px; font-weight: bold; color: #555555; background-color: #F3F3F3; border-bottom: 1px solid #EAEAEA; line-height: 18px;">${label}</td>
+                <td valign="top" style="padding: 10px; font-size: 14px; color: #333333; border-bottom: 1px solid #EAEAEA; line-height: 18px; word-break: break-word;">${value}</td>
+            </tr>`;
+
+        const productsDataForTableHTML = productsDataForTable.map((productData) => {
+            const imageUrl = getImageUrls(productData.foto1).thumbnailUrl;
+            const precio = typeof productData.precio === "number" ? productData.precio.toFixed(2) : "";
+            return `<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width: 100%; margin-bottom: 16px; border: 1px solid #DADADA; border-collapse: collapse;">
+                ${productCardRow("Producto", productData.nombre || "")}
+                ${productCardRow("Foto", `<img src="${imageUrl}" width="50" height="50" alt="" style="display: block; border: 0; max-width: 50px; height: auto;" />`)}
+                ${productCardRow("Observaciones", productData.observaciones || "")}
+                ${productCardRow("Precio", `$${precio}`)}
+                ${productCardRow("Cantidad", String(productData.cantidad ?? ""))}
+                ${productCardRow("Total", `$${productData.total ?? ""}`)}
+            </table>`;
+        }).join("");               
 
         const adminEmailHTMLTemplate = path.resolve(__dirname, "../data/mailsTemplates/email-nuevo-pedido-admin.html");
         const adminEmailHTMLContent = fs.readFileSync(adminEmailHTMLTemplate, "utf8");
@@ -85,6 +85,26 @@ export const newOrder = async (req: Request, res: Response) => {
             .replace("#metodo_envio#", shippingMethodsDataFromDB.find((methodData) => methodData.id === orderDataFromDB.id_metodo_envio)?.nombre || "")
             .replace("#observaciones#", orderDataFromDB.observaciones || "")
             .replace("#tableData#", productsDataForTableHTML || "");
+
+        const userEmailHTMLTemplate = path.resolve(__dirname, "../data/mailsTemplates/email-nuevo-pedido-user.html");
+        const userEmailHTMLContent = fs.readFileSync(userEmailHTMLTemplate, "utf8");
+
+        const userEmailHTMLContentCompleted =
+        userEmailHTMLContent
+            .replace("#nombre#", userData.nombre || "")
+            .replace("#apellido#", userData.apellido || "")
+            .replace("#fecha#", getCurrentDateTime() || "")
+            .replace("#total#", orderDataFromDB.total.toString() || "")
+            .replace("#metodo_envio#", shippingMethodsDataFromDB.find((methodData) => methodData.id === orderDataFromDB.id_metodo_envio)?.nombre || "")
+            .replace("#observaciones#", orderDataFromDB.observaciones || "")
+            .replace("#tableData#", productsDataForTableHTML || "");
+
+        const response = await sendMails({emailsArr: [{email: userEmail}], message: userEmailHTMLContentCompleted});     //Envio de mail con los detalles de la nueva orden al usuario
+        if (response.success) {
+            await getDao().inserNotificationLog({recipients: userEmail, notificationType: "Nuevo pedido (Detalle para usuario)"});
+        } else {
+            console.error(response.message);
+        }
                   
         const response6 = await getDao().getTable({tableName: "config", conditions: [{field: "seccion", value: "pedidos"}]});
         const newOrderNotificationData: Config[] | null = response6.data;

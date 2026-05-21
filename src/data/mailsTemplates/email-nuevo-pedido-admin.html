@@ -1,164 +1,107 @@
 <html>
 
 	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="x-apple-disable-message-reformatting" />
 		<style>
-			table.productsDetails * {
-				text-align: center;
+			body,
+			table,
+			td {
+				-webkit-text-size-adjust: 100%;
+				-ms-text-size-adjust: 100%;
 			}
 
-			.mobileLabel {
-				display: none;
-				font-weight: bold;
-				color: #555555;
+			table {
+				border-collapse: collapse;
+				mso-table-lspace: 0pt;
+				mso-table-rspace: 0pt;
 			}
 
-			@media only screen and (max-width: 600px) {
-				.emailContent {
-					max-width: 100% !important;
-				}
-
-				.emailBodyCell {
-					padding: 0 8px !important;
-				}
-
-				.productsTableWrapper {
-					overflow: visible !important;
-				}
-
-				table.productsDetails,
-				table.productsDetails tbody,
-				table.productsDetails tr,
-				table.productsDetails td {
-					display: block !important;
-					width: 100% !important;
-					box-sizing: border-box;
-				}
-
-				table.productsDetails {
-					min-width: 0 !important;
-					border: 0 !important;
-				}
-
-				table.productsDetails thead {
-					display: none !important;
-				}
-
-				table.productsDetails tr {
-					margin-bottom: 16px !important;
-					border: 1px solid #DADADA !important;
-				}
-
-				table.productsDetails td {
-					border: 0 !important;
-					border-bottom: 1px solid #EAEAEA !important;
-					padding: 10px !important;
-					text-align: left !important;
-				}
-
-				table.productsDetails td:last-child {
-					border-bottom: 0 !important;
-				}
-
-				table.productsDetails td.productImageCell {
-					text-align: center !important;
-				}
-
-				table.productsDetails td.productImageCell img {
-					width: 64px !important;
-					height: auto !important;
-				}
-
-				.mobileLabel {
-					display: inline !important;
-				}
+			img {
+				-ms-interpolation-mode: bicubic;
+				border: 0;
+				outline: none;
+				text-decoration: none;
+				display: block;
 			}
 		</style>
 	</head>
 
-	<body>
+	<body style="width: 100%; margin: 0; padding: 0; background-color: #FFFFFF;">
 
-		<table width="100%" border="0" cellpadding="0" cellspacing="0"
-			style="background-color: #FFFFFF; font-family: Arial;">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation"
+			style="background-color: #FFFFFF; font-family: Arial, Helvetica, sans-serif; width: 100%;">
 			<tr>
 				<td align="center" style="padding: 0 12px;">
-					<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center"
-						class="emailContent" style="width: 100%; max-width: 800px;">
+					<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" role="presentation"
+						style="width: 100%; max-width: 600px;">
 						<tr>
-							<td height="30"></td>
+							<td height="30" style="font-size: 0; line-height: 0;">&nbsp;</td>
 						</tr>
 						<tr>
-							<td height="75"><img
-									src="https://joyas1945.com/img/logo/logo_black.png" width="134" height="55"
+							<td align="left" style="padding: 0;">
+								<img src="https://joyas1945.com/img/logo/logo_black.png" width="134" height="55"
 									alt="Joyas 1945"
-									style="margin: 0; border: 0; padding: 0; display: block;" />
+									style="margin: 0; border: 0; padding: 0; display: block; max-width: 134px; height: auto;" />
 							</td>
 						</tr>
 						<tr>
-							<td height="12" style="background-color: #FFFFFF;">
-								<table width="100%" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+							<td height="24" style="font-size: 0; line-height: 0;">&nbsp;</td>
+						</tr>
+						<tr>
+							<td style="padding: 0; font-size: 14px; color: #777777; line-height: 21px;">
+
+								<table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation">
 									<tr>
-										<td height="41"></td>
-									</tr>
-									<tr>
-										<td class="emailBodyCell" style="padding: 0 16px; font-size: 14px; color: #777;">
-											<p
-												style="text-align: center; font-size: 14px; font-weight: bold; color: #3DB0F5;">
-												Nuevo Pedido</p>
-
-											<p style="font-size: 14px;">Se ha registrado un nuevo pedido en Joyas 1945 del usuario:</p>
-
-											<p style="font-size: 14px; line-height: 21px;">
-												<b>Nombre: </b>#nombre#<br />
-												<b>Apellido: </b>#apellido#<br />
-												<b>Correo electr&oacute;nico: </b>#email#<br />
-												<b>Categor&iacute;a: </b>#rubro#<br />
-												<b>Provincia: </b>#provincia#<br />
-												<b>Tel&eacute;fono: </b>#telefono#<br />
-												<b>Celular: </b>#celular#<br />
-											</p>
-
-											<p style="font-size: 14px;">Datos del pedido:</p>
-
-											<p style="font-size: 14px; line-height: 21px;">
-												<b>Fecha: </b>#fecha#<br />
-												<b>Total: </b>$#total#<br />
-												<b>M&eacute;todo de env&iacute;o: </b>#metodo_envio#<br />
-												<b>Observaciones: </b><br />
-												#observaciones#
-											</p>
-
-											<p style="font-size: 14px;">Detalle del pedido:</p>
-
-											<div class="productsTableWrapper" style="width: 100%; overflow-x: auto;">
-												<table width="100%" border="1" cellpadding="5" cellspacing="0" class="productsDetails"
-													style="min-width: 560px; border-collapse: collapse; font-size: 14px; color: #333; text-align: left; table-layout: fixed;">
-													<thead style="background-color: #F3F3F3;">
-														<tr>
-															<th style="padding: 5px; word-break: break-word;">Producto</th>
-															<th style="padding: 5px; word-break: break-word;">Foto</th>
-															<th style="padding: 5px; word-break: break-word;">Observaciones</th>
-															<th style="padding: 5px; word-break: break-word;">Precio</th>
-															<th style="padding: 5px; word-break: break-word;">Cantidad</th>
-															<th style="padding: 5px; word-break: break-word;">Total</th>
-														</tr>
-													</thead>
-													<tbody>
-														#tableData#
-													</tbody>
-												</table>
-											</div>
-
+										<td align="center"
+											style="padding: 8px 0 20px 0; font-size: 16px; font-weight: bold; color: #3DB0F5; line-height: 24px;">
+											Nuevo Pedido
 										</td>
 									</tr>
 									<tr>
-										<td height="41"></td>
+										<td style="padding: 0 0 16px 0; font-size: 14px; color: #777777; line-height: 21px;">
+											Se ha registrado un nuevo pedido en Joyas 1945 del usuario:
+										</td>
+									</tr>
+									<tr>
+										<td style="padding: 0 0 16px 0; font-size: 14px; color: #777777; line-height: 21px;">
+											<b>Nombre: </b>#nombre#<br />
+											<b>Apellido: </b>#apellido#<br />
+											<b>Correo electr&oacute;nico: </b>#email#<br />
+											<b>Categor&iacute;a: </b>#rubro#<br />
+											<b>Provincia: </b>#provincia#<br />
+											<b>Tel&eacute;fono: </b>#telefono#<br />
+											<b>Celular: </b>#celular#<br />
+										</td>
+									</tr>
+									<tr>
+										<td style="padding: 0 0 8px 0; font-size: 14px; font-weight: bold; color: #333333; line-height: 21px;">
+											Datos del pedido:
+										</td>
+									</tr>
+									<tr>
+										<td style="padding: 0 0 20px 0; font-size: 14px; color: #777777; line-height: 21px;">
+											<b>Fecha: </b>#fecha#<br />
+											<b>Total: </b>$#total#<br />
+											<b>M&eacute;todo de env&iacute;o: </b>#metodo_envio#<br />
+											<b>Observaciones: </b><br />
+											#observaciones#
+										</td>
+									</tr>
+									<tr>
+										<td style="padding: 0 0 12px 0; font-size: 14px; font-weight: bold; color: #333333; line-height: 21px;">
+											Detalle del pedido:
+										</td>
 									</tr>
 								</table>
+
+								#tableData#
+
 							</td>
 						</tr>
 						<tr>
-							<td height="21"></td>
+							<td height="32" style="font-size: 0; line-height: 0;">&nbsp;</td>
 						</tr>
 					</table>
 				</td>
